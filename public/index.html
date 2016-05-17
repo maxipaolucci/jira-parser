@@ -8,6 +8,12 @@
 </head>
 <body >
     <div ng-controller="mainController as mainCtrl">
+
+        <input type="text" ng-model="jiraUser" />
+        <input type="password" ng-model="jiraPass" />
+
+        <button type="button" ng-click="login()">Submit</button>
+        <input type="text" ng-model="issueNumber" />
         <input type="text" ng-model="issueNumber" />
         <button type="button" ng-click="findJiraIssue()">Submit</button>
         <div class="jira-tiles">

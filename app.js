@@ -2,19 +2,21 @@ var express = require('express');
 var app = express();
 var JiraApi = require('jira').JiraApi;
 var fs = require('fs');
-
+var bodyParser = require('body-parser');
+var urlencode = bodyParser.urlencoded({extended: false});
 
 var config = {
     protocol: 'https',
     host: 'jira.vodafone.co.nz',
     port: 443,
-    user: 'mpaoluc',
-    password: 'Scot1234',
+    user: null,
+    password: null,
     apiVersion: '2'
 };
 
-var jira = new JiraApi(config.protocol, config.host, config.port, config.user, config.password, config.apiVersion);
+var jira = null; //will contain the jira object created on login route
 
+app.use(bodyParser.json());
 app.use(express.static('public'));
 
 var port = 3000;
@@ -37,4 +39,12 @@ app.get('/mock', function (req, res) {
         data = JSON.parse(data);
         res.json(data);
     });
+});
+
+app.post('/login', urlencode, function (req, res) {
+    config.user = req.body.username;
+    config.password = req.body.password;
+    console.log(config);
+    jira = new JiraApi(config.protocol, config.host, config.port, config.user, config.password, config.apiVersion);
+    res.sendStatus(200);
 });
