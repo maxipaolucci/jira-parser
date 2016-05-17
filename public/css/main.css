@@ -1,17 +1,25 @@
+.clearfix {
+    float: none;
+    clear: both;
+}
+
 .jira-tiles {
     font-family: Arial;
     width: 20cm;
 }
 
-.jira-tiles .jira-subtask {
-    width: 5cm;
-    height: 5cm;
-    border: solid 2px;
-    margin: 10px;
-    float: left;
+.jira-tiles .jira-task-container {
+    border-bottom: solid 1px #000000;
 }
 
-.jira-tiles .jira-subtask .id {
+.jira-tiles .jira-task {
+    width: 10cm;
+    min-height: 3cm;
+    border: solid 2px #000000;
+    margin: 10px;
+}
+
+.jira-tiles .jira-task .id {
     font-weight: bold;
     background-color: dodgerblue;
     border-bottom: solid 2px #000000;
@@ -20,6 +28,11 @@
     text-align: center;
 }
 
-.jira-tiles .jira-subtask .summary {
+.jira-tiles .jira-task .summary {
     padding: 10px;
+}
+
+.jira-tiles .jira-task--subtask {
+    width: 7cm;
+    float: left;
 }

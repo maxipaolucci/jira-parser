@@ -29,8 +29,13 @@ app.get('/findIssue/:issueNumber', function (req, res) {
     var issueNumber = req.params.issueNumber;
 
     jira.findIssue(issueNumber, function(error, issue) {
-        if (error) throw error;
-        res.json(issue);
+        if (error) {
+            res.redirect('/mock');
+            //throw error;
+        } else {
+            res.json(issue);
+        }
+
     });
 });
 
@@ -44,7 +49,6 @@ app.get('/mock', function (req, res) {
 app.post('/login', urlencode, function (req, res) {
     config.user = req.body.username;
     config.password = req.body.password;
-    console.log(config);
     jira = new JiraApi(config.protocol, config.host, config.port, config.user, config.password, config.apiVersion);
     res.sendStatus(200);
 });

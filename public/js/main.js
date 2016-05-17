@@ -3,33 +3,45 @@
  */
 angular.module('printjira', [])
   .controller('mainController', function($scope, $log, jiraIssueService) {
-    $scope.issueNumber = 'ATG-5971';
+    $scope.issueNumbers = 'ATG-5971';
+    $scope.logedIn = false;
     $scope.jiraUser = '';
     $scope.jiraPass = '';
-    $scope.subtasks = [];
+    $scope.tasks = [];
     
-    $scope.findJiraIssue = function () {
-      $scope.subtasks = [];
-      jiraIssueService.getIssue($scope.issueNumber).then(function(data) {
-        if (data) {
-          $scope.subtasks = data.fields.subtasks;
-        } else {
-          $log.log('(loadMorePosts()) Cannot retrive the posts data');
-        }
-      }, function (data) {
-        $log.log(data);
+    $scope.findJiraIssues = function () {
+      $scope.tasks = [];
+
+      var issueNumbers = $scope.issueNumbers.split(',');
+      angular.forEach(issueNumbers, function(issueNumber) {
+        issueNumber = issueNumber.trim();
+        jiraIssueService.getIssue(issueNumber).then(function(data) {
+          if (data) {
+            $scope.tasks.push(data);
+          } else {
+            $log.log(' Cannot retrieve the issue data for id: ' + issueNumber);
+          }
+        }, function (data) {
+          $log.log(data);
+        });
       });
+
+
     };
     
     $scope.login = function () {
       jiraIssueService.login($scope.jiraUser, $scope.jiraPass).then(function(data) {
-        if (data) {
+        if (data == 'OK') {
           $log.log(data);
+          $scope.logedIn = true;
         } else {
-          $log.log('(loadMorePosts()) Cannot login');
+          $log.log('Cannot login');
+          $scope.logedIn = false;
         }
       }, function (data) {
         $log.log(data);
+        $log.log('Cannot login');
+        $scope.logedIn = false;
       });
     };
 

@@ -8,18 +8,29 @@
 </head>
 <body >
     <div ng-controller="mainController as mainCtrl">
+        <div ng-hide="logedIn" class="login-form">
+            <input type="text" ng-model="jiraUser" />
+            <input type="password" ng-model="jiraPass" />
+            <button type="button" ng-click="login()">Submit</button>
+        </div>
+        <div class="logedIn-name" ng-show="logedIn">Welcome {{jiraUser}}!</div>
 
-        <input type="text" ng-model="jiraUser" />
-        <input type="password" ng-model="jiraPass" />
+        <input type="text" ng-model="issueNumbers" />
+        <button type="button" ng-click="findJiraIssues()">Submit</button>
 
-        <button type="button" ng-click="login()">Submit</button>
-        <input type="text" ng-model="issueNumber" />
-        <input type="text" ng-model="issueNumber" />
-        <button type="button" ng-click="findJiraIssue()">Submit</button>
         <div class="jira-tiles">
-            <div class="jira-subtask" ng-repeat="subtask in subtasks">
-                <div class="id">{{subtask.key}}</div>
-                <div class="summary">{{subtask.fields.summary}}</div>
+            <div class="jira-task-container" ng-repeat="task in tasks">
+                <h1>{{task.key}}</h1>
+                <div class="jira-task">
+                    <div class="id">{{task.key}}</div>
+                    <div class="summary">{{task.fields.summary}}</div>
+                </div>
+
+                <div class="jira-task jira-task--subtask" ng-repeat="subtask in task.fields.tasks">
+                    <div class="id">{{subtask.key}}</div>
+                    <div class="summary">{{subtask.fields.summary}}</div>
+                </div>
+                <div class="clearfix"></div>
             </div>
         </div>
     </div>
