@@ -2,7 +2,7 @@ angular.module('printjira').service('jiraIssueService',function ($http, $q) {
     
     this.getIssue = function (issueNumber) {
         var deferred = $q.defer();
-        var url = 'http://localhost:3000/mock';
+        var url = 'http://localhost:3000/findIssue/' + issueNumber;
         $http.get(url)
             .success(function(data){
                 deferred.resolve(data);

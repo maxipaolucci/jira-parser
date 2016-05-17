@@ -1,0 +1,25 @@
+.jira-tiles {
+    font-family: Arial;
+    width: 20cm;
+}
+
+.jira-tiles .jira-subtask {
+    width: 5cm;
+    height: 5cm;
+    border: solid 2px;
+    margin: 10px;
+    float: left;
+}
+
+.jira-tiles .jira-subtask .id {
+    font-weight: bold;
+    background-color: dodgerblue;
+    border-bottom: solid 2px #000000;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+.jira-tiles .jira-subtask .summary {
+    padding: 10px;
+}

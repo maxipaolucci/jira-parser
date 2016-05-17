@@ -23,8 +23,10 @@ app.listen(port, function () {
 });
 
 
-app.get('/jira', function (req, res) {
-    jira.findIssue('ATG-5980', function(error, issue) {
+app.get('/findIssue/:issueNumber', function (req, res) {
+    var issueNumber = req.params.issueNumber;
+
+    jira.findIssue(issueNumber, function(error, issue) {
         if (error) throw error;
         res.json(issue);
     });

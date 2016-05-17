@@ -7,7 +7,16 @@
 
 </head>
 <body >
-    <div ng-controller="mainController as mainCtrl">{{welcome}}</div>
+    <div ng-controller="mainController as mainCtrl">
+        <input type="text" ng-model="issueNumber" />
+        <button type="button" ng-click="findJiraIssue()">Submit</button>
+        <div class="jira-tiles">
+            <div class="jira-subtask" ng-repeat="subtask in subtasks">
+                <div class="id">{{subtask.key}}</div>
+                <div class="summary">{{subtask.fields.summary}}</div>
+            </div>
+        </div>
+    </div>
     <script src="/js/jquery.js"></script>
     <script src="/js/angular.js"></script>
 

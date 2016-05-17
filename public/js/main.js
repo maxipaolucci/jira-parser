@@ -3,14 +3,20 @@
  */
 angular.module('printjira', [])
     .controller('mainController', function($scope, $log, jiraIssueService) {
-        $scope.welcome = 'maxi';
-        jiraIssueService.getIssue(null).then(function(data) {
+        $scope.issueNumber = 'ATG-5971';
+        $scope.subtasks = [];
+
+        $scope.findJiraIssue = function () {
+          $scope.subtasks = [];
+          jiraIssueService.getIssue($scope.issueNumber).then(function(data) {
             if (data) {
-                $scope.welcome = data;
+              $scope.subtasks = data.fields.subtasks;
             } else {
-                $log.log('(loadMorePosts()) Cannot retrive the posts data');
+              $log.log('(loadMorePosts()) Cannot retrive the posts data');
             }
-        }, function (data) {
+          }, function (data) {
             $log.log(data);
-        });
+          });
+        }
+
     });
