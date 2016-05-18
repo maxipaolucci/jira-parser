@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link href="/css/main.css" rel="stylesheet">
+    <link href="/js/directives/loading-icon/styles.css" rel="stylesheet">
     <title>Print Jira</title>
 
 </head>
@@ -14,6 +15,7 @@
                 Jira user: <input type="text" ng-model="jiraUser" />
                 Jira password: <input type="password" ng-model="jiraPass" />
                 <button type="button" ng-click="login()">Login</button>
+                <loading-icon class="loading-icon--login"></loading-icon>
             </div>
             <div ng-show="logedIn">
                 <span class="logedIn-name">Welcome {{jiraUser}}!</span>
@@ -36,6 +38,7 @@
 
         <!-- Ticket cards container -->
         <div class="jira-tiles">
+            <loading-icon class="loading-icon--tasks"></loading-icon>
             <div class="jira-task-container" ng-repeat="task in tasks">
                 <h3>{{task.key}}</h3>
                 <div class="jira-task">
@@ -57,5 +60,6 @@
 
     <script src="/js/main.js"></script>
     <script src="/js/services/jiraIssueServices.js"></script>
+    <script src="/js/directives/loading-icon/loading-icon.component.js"></script>
 </body>
 </html>

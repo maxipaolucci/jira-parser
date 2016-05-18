@@ -10,8 +10,12 @@ angular.module('printjira', [])
     
     $scope.findJiraIssues = function () {
       $scope.tasks = [];
+      var loadingIconTasks = angular.element('body').find('.loading-icon--tasks');
+      loadingIconTasks.show();
 
       var issueNumbers = $scope.issueNumbers.split(',');
+      var issueServicesFinished = 0;
+
       angular.forEach(issueNumbers, function(issueNumber) {
         issueNumber = issueNumber.trim();
         jiraIssueService.getIssue(issueNumber).then(function(data) {
@@ -22,11 +26,19 @@ angular.module('printjira', [])
           }
         }, function (error) {
           $log.log(error);
+        }).finally(function() {
+          issueServicesFinished += 1;
+          if (issueServicesFinished == issueNumbers.length) {
+            loadingIconTasks.hide();
+          }
         });
       });
     };
     
     $scope.login = function () {
+      var loadingIconLogin = angular.element('body').find('.loading-icon--login');
+      loadingIconLogin.show();
+      
       jiraIssueService.login($scope.jiraUser, $scope.jiraPass).then(function(data) {
         if (data.status == 'success' && data.name == $scope.jiraUser) {
           $scope.logedIn = true;
@@ -37,6 +49,8 @@ angular.module('printjira', [])
       }, function (error) {
         $log.error(error);
         $scope.logedIn = false;
+      }).finally(function() {
+        loadingIconLogin.hide();
       });
     };
 

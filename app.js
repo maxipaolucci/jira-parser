@@ -14,7 +14,7 @@ var config = {
     apiVersion: '2'
 };
 
-var useMocks = true;
+var useMocks = false;
 
 var jira = null; //will contain the jira object created on login route
 
