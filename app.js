@@ -30,8 +30,8 @@ app.get('/findIssue/:issueNumber', function (req, res) {
 
     jira.findIssue(issueNumber, function(error, issue) {
         if (error) {
-            //throw error;
-            res.redirect('/mock');
+            throw error;
+            //res.redirect('/mock');
         } else {
             res.json(issue);
         }

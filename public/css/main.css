@@ -3,6 +3,26 @@
     clear: both;
 }
 
+body {
+    font-family: Arial;
+}
+
+.app-title {
+    color: #243781;
+}
+
+.login-container {
+    float: right;
+}
+
+.ticket-form-container {
+    margin-top: 15px;
+}
+
+.ticket-form-container .color-controls {
+    margin-top: 5px;
+}
+
 .jira-tiles {
     font-family: Arial;
     width: 20cm;
@@ -21,7 +41,6 @@
 
 .jira-tiles .jira-task .id {
     font-weight: bold;
-    background-color: dodgerblue;
     border-bottom: solid 2px #000000;
     color: #fff;
     padding: 10px;

@@ -4,6 +4,8 @@
 angular.module('printjira', [])
   .controller('mainController', function($scope, $log, jiraIssueService) {
     $scope.issueNumbers = 'ATG-5971';
+    $scope.taskColor = '1E90FF';
+    $scope.subtaskColor = '1E90FF';
     $scope.logedIn = false;
     $scope.jiraUser = '';
     $scope.jiraPass = '';
