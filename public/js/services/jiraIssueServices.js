@@ -24,8 +24,8 @@ angular.module('printjira').service('jiraIssueService',function ($http, $q) {
         $http.post(url, datas)
           .success(function(data){
               deferred.resolve(data);
-          }).error(function(){
-            deferred.reject('There was an error trying login: ');
+          }).error(function(error){
+            deferred.reject('There was an error trying login: ' + error);
         });
         return deferred.promise;
     };
@@ -38,7 +38,7 @@ angular.module('printjira').service('jiraIssueService',function ($http, $q) {
             .success(function(data){
                 deferred.resolve(data);
             }).error(function(){
-                deferred.reject('There was an error trying do logout.');
+                deferred.reject('There was an error trying to do logout.');
             });
         return deferred.promise;
     };

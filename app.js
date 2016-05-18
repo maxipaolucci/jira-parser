@@ -14,7 +14,36 @@ var config = {
     apiVersion: '2'
 };
 
+var useMocks = true;
+
 var jira = null; //will contain the jira object created on login route
+
+var clearLoginData = function () {
+    config.user = null;
+    config.password = null;
+    jira = null;
+};
+
+/**
+ * Get a mocked issue from disk and send is as a parameter of the callback fn
+ * @param (string) fileName . The name of the mock to load without the json extension
+ * @param callback . The callback fn.
+ */
+var getMockedData = function(fileName, callback) {
+    var url = './mocks/' + fileName + '.json';
+    fs.readFile(url, 'utf8', function (error, data){
+        if (error) {
+            error.status = "error";
+            error.codeno = 404;
+            error.msg = "Error retrieving mocked issue data";
+            res.status(404).json(error);
+        }
+
+        data = JSON.parse(data);
+        callback(data);
+    });
+};
+
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
@@ -30,32 +59,77 @@ app.get('/findIssue/:issueNumber', function (req, res) {
 
     jira.findIssue(issueNumber, function(error, issue) {
         if (error) {
-            throw error;
-            //res.redirect('/mock');
+            if (useMocks) {
+                //use mocked data
+                getMockedData('ticket', function (data) {
+                    data.status = "success";
+                    data.codeno = 200;
+                    data.msg = "";
+                    res.json(data);
+                });
+            } else {
+                error.status = "error";
+                error.codeno = 404;
+                error.msg = "Error retrieving mocked issue data";
+                res.status(404).json(error);
+            }
         } else {
+            issue.status = "success";
+            issue.codeno = 200;
+            issue.msg = "";
             res.json(issue);
         }
-
     });
 });
 
-app.get('/mock', function (req, res) {
-    fs.readFile('./mocks/ticket.json', 'utf8', function (error, data){
-        data = JSON.parse(data);
-        res.json(data);
-    });
-});
-
+/**
+ * login user
+ */
 app.post('/login', urlencode, function (req, res) {
+
     config.user = req.body.username;
     config.password = req.body.password;
-    jira = new JiraApi(config.protocol, config.host, config.port, config.user, config.password, config.apiVersion);
-    res.sendStatus(200);
+
+    if (config.user && config.password) {
+        jira = new JiraApi(config.protocol, config.host, config.port, config.user, config.password, config.apiVersion);
+        
+        jira.searchUsers(config.user, 0, 1, true, false, function (error, users) {
+            console.log(users);
+            if (error) {
+                if (useMocks) {
+                    //use mocked data
+                    getMockedData('user', function (users) {
+                        res.json(users[0]);
+                    });
+                } else {
+                    error.status = "error";
+                    error.codeno = 404;
+                    error.msg = "jira.searchUsers service failed";
+                    clearLoginData();
+                    res.status(404).json(error);
+                }
+            } else if (users[0].name == config.user && users[0].active) {
+                users[0].status = "success";
+                users[0].codeno = 200;
+                users[0].msg = "";
+                res.json(users[0]);
+            } else {
+                clearLoginData();
+                var data = {status: "error", codeno: 404, msg: "User not found"};
+                res.status(404).json(data);
+            }
+        });
+    } else {
+        clearLoginData();
+        var data = {status: "error", codeno: 404, msg: "Username and/or password could not be empty"};
+        res.status(404).json(data);
+    }
 });
 
+/**
+ * Logout user
+ */
 app.get('/logout', function (req, res) {
-    config.user = null;
-    config.password = null;
-    jira = null;
-    res.sendStatus(200);
+    clearLoginData();
+    res.json({ status : "success", codeno : 200, msg : ""});
 });
