@@ -35,7 +35,7 @@ var getMockedData = function(fileName, callback) {
         if (error) {
             error.status = "error";
             error.codeno = 404;
-            error.msg = "Error retrieving mocked issue data";
+            error.msg = "getMockedData: Error retrieving mocked issue data";
             res.status(404).json(error);
         }
 
@@ -68,9 +68,11 @@ app.get('/findIssue/:issueNumber', function (req, res) {
                     res.json(data);
                 });
             } else {
-                error.status = "error";
-                error.codeno = 404;
-                error.msg = "Error retrieving mocked issue data";
+                var errorResponse = {};
+                errorResponse.status = "error";
+                errorResponse.codeno = 404;
+                errorResponse.msg = "findIssue: Error retrieving mocked issue data";
+                errorResponse.data = error;
                 res.status(404).json(error);
             }
         } else {
@@ -102,11 +104,13 @@ app.post('/login', urlencode, function (req, res) {
                         res.json(users[0]);
                     });
                 } else {
-                    error.status = "error";
-                    error.codeno = 404;
-                    error.msg = "jira.searchUsers service failed";
+                    var errorResponse = {};
+                    errorResponse.status = "error";
+                    errorResponse.codeno = 404;
+                    errorResponse.msg = "searchUsers: Service failed";
+                    errorResponse.data = {error};
                     clearLoginData();
-                    res.status(404).json(error);
+                    res.status(404).json(errorResponse);
                 }
             } else if (users[0].name == config.user && users[0].active) {
                 users[0].status = "success";
@@ -115,13 +119,13 @@ app.post('/login', urlencode, function (req, res) {
                 res.json(users[0]);
             } else {
                 clearLoginData();
-                var data = {status: "error", codeno: 404, msg: "User not found"};
+                var data = {status: "error", codeno: 404, msg: "login: User not found"};
                 res.status(404).json(data);
             }
         });
     } else {
         clearLoginData();
-        var data = {status: "error", codeno: 404, msg: "Username and/or password could not be empty"};
+        var data = {status: "error", codeno: 404, msg: "login: Username and/or password could not be empty"};
         res.status(404).json(data);
     }
 });
