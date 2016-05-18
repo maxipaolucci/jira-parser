@@ -30,8 +30,8 @@ app.get('/findIssue/:issueNumber', function (req, res) {
 
     jira.findIssue(issueNumber, function(error, issue) {
         if (error) {
-            throw error;
-            //res.redirect('/mock');
+            //throw error;
+            res.redirect('/mock');
         } else {
             res.json(issue);
         }
@@ -50,5 +50,12 @@ app.post('/login', urlencode, function (req, res) {
     config.user = req.body.username;
     config.password = req.body.password;
     jira = new JiraApi(config.protocol, config.host, config.port, config.user, config.password, config.apiVersion);
+    res.sendStatus(200);
+});
+
+app.get('/logout', function (req, res) {
+    config.user = null;
+    config.password = null;
+    jira = null;
     res.sendStatus(200);
 });

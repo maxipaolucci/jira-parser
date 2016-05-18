@@ -45,4 +45,22 @@ angular.module('printjira', [])
       });
     };
 
+    $scope.logout = function () {
+      jiraIssueService.logout().then(function(data) {
+        if (data == 'OK') {
+          $log.log(data);
+          $scope.logedIn = false;
+        } else {
+          $log.log('Cannot logout properly, the response is not OK');
+          $scope.logedIn = false;
+        }
+      }, function (data) {
+        $log.log(data);
+        $log.log('Cannot logout properly, the service failed');
+        $scope.logedIn = false;
+      }).finally(function() {
+        $scope.jiraPass = '';
+        $scope.jiraUser = '';
+      });
+    };
   });

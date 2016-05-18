@@ -36,3 +36,14 @@
     width: 7cm;
     float: left;
 }
+
+@media print {
+    body {
+        visibility: hidden;
+
+    }
+
+    body .jira-tiles {
+        visibility: visible;
+    }
+}

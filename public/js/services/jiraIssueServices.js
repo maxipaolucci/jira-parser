@@ -9,7 +9,7 @@ angular.module('printjira').service('jiraIssueService',function ($http, $q) {
             .success(function(data){
                 deferred.resolve(data);
             }).error(function(){
-            deferred.reject('There was an error trying to retrieve the isssue number: ');
+            deferred.reject('There was an error trying to retrieve the isssue number: ' + issueNumber);
         });
         return deferred.promise;
     };
@@ -27,6 +27,19 @@ angular.module('printjira').service('jiraIssueService',function ($http, $q) {
           }).error(function(){
             deferred.reject('There was an error trying login: ');
         });
+        return deferred.promise;
+    };
+
+    this.logout = function (user, pass) {
+        var deferred = $q.defer();
+        var url = host + 'logout';
+
+        $http.get(url)
+            .success(function(data){
+                deferred.resolve(data);
+            }).error(function(){
+                deferred.reject('There was an error trying do logout.');
+            });
         return deferred.promise;
     };
 });
