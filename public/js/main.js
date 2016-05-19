@@ -1,5 +1,4 @@
-angular.module('printjira', [])
-  .controller('mainController', function($scope, $log, jiraIssueService) {
+angular.module('printjira', []).controller('mainController', function($scope, $log, jiraIssueService) {
     $scope.issueNumbers = 'ATG-5971';
     $scope.taskColor = '1E90FF';
     $scope.subtaskColor = '1E90FF';
@@ -7,7 +6,11 @@ angular.module('printjira', [])
     $scope.jiraUser = '';
     $scope.jiraPass = '';
     $scope.tasks = [];
-    
+
+    /**
+     * Calls the service that retrieve jira issues from JIRA and populates the array of tickets to
+     * be print
+     */
     $scope.findJiraIssues = function () {
       $scope.tasks = [];
       var loadingIconTasks = angular.element('body').find('.loading-icon--tasks');
@@ -34,7 +37,11 @@ angular.module('printjira', [])
         });
       });
     };
-    
+
+    /**
+     * Call the login service in the server sending login data to create a connection with jira in the
+     * backend
+     */
     $scope.login = function () {
       var loadingIconLogin = angular.element('body').find('.loading-icon--login');
       loadingIconLogin.show();
@@ -54,6 +61,9 @@ angular.module('printjira', [])
       });
     };
 
+    /**
+     * Call the logout service in the server and disconnect the current session with jira server
+     */
     $scope.logout = function () {
       jiraIssueService.logout().then(function(data) {
         if (data.status == 'success') {
@@ -70,4 +80,4 @@ angular.module('printjira', [])
         $scope.jiraUser = '';
       });
     };
-  });
+});
