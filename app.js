@@ -108,7 +108,7 @@ app.post('/login', urlencode, function (req, res) {
                     errorResponse.status = "error";
                     errorResponse.codeno = 404;
                     errorResponse.msg = "searchUsers: Service failed";
-                    errorResponse.data = {error};
+                    errorResponse.data = error;
                     clearLoginData();
                     res.status(404).json(errorResponse);
                 }

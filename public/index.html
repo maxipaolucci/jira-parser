@@ -2,15 +2,14 @@
 <html lang="en" ng-app="printjira">
 <head>
     <meta charset="UTF-8">
-    <link href="/css/main.css" rel="stylesheet">
-    <link href="/js/directives/loading-icon/styles.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
     <title>Print Jira</title>
 
 </head>
 <body >
     <div ng-controller="mainController as mainCtrl">
         <!-- login form container -->
-        <div class="login-container">
+        <div class="login-container non-printable">
             <div ng-hide="logedIn" class="">
                 Jira user: <input type="text" ng-model="jiraUser" />
                 Jira password: <input type="password" ng-model="jiraPass" />
@@ -24,12 +23,14 @@
         </div>
         <div class="clearfix"></div>
 
-        <h1 class="app-title">Jira Cards</h1>
+        <!-- App Title -->
+        <h1 class="app-title non-printable">Jira Cards</h1>
 
         <!-- Ticket form container -->
-        <div class="ticket-form-container" >
+        <div class="ticket-form-container non-printable" >
             Ticket numbers (comma separated): <input ng-disabled="!logedIn" type="text" ng-model="issueNumbers" size="100" />
             <button type="button" ng-click="findJiraIssues()" ng-disabled="!logedIn">Submit</button>
+            
             <div class="color-controls">
                 Task color: <input class="jscolor" ng-model="taskColor">
                 Subtask color: <input class="jscolor" ng-model="subtaskColor">
@@ -54,12 +55,26 @@
             </div>
         </div>
     </div>
+
+
+    <!-- ////////////////////////////////////// SCRIPTS //////////////////////////////////////// -->
+    <!-- LIBRARIES -->
     <script src="/js/lib/jquery.js"></script>
     <script src="/js/lib/angular.js"></script>
     <script src="/js/lib/jscolor.min.js"></script>
+    <script src="/js/lib/pdfmake.min.js"></script>
+    <script src="/js/lib/vfs_fonts.js"></script>
 
+    <!-- MAIN -->
     <script src="/js/main.js"></script>
+
+    <!-- SERVICES -->
     <script src="/js/services/jiraIssueServices.js"></script>
+
+    <!-- DIRECTIVES -->
     <script src="/js/directives/loading-icon/loading-icon.component.js"></script>
+
+    <!-- CONTROLLERS -->
+    <script src="/js/controllers/mainController.js"></script>
 </body>
 </html>
