@@ -30,7 +30,10 @@
         <div class="ticket-form-container non-printable" >
             Ticket numbers (comma separated): <input ng-disabled="!logedIn" type="text" ng-model="issueNumbers" size="100" />
             <button type="button" ng-click="findJiraIssues()" ng-disabled="!logedIn">Submit</button>
-            
+            <button type="button" ng-click="openPdf()" ng-disabled="!logedIn || !tasks.length">Open PDF</button>
+            <button type="button" ng-click="printPdf()" ng-disabled="!logedIn || !tasks.length">Print PDF</button>
+            <button type="button" ng-click="downloadPdf()" ng-disabled="!logedIn || !tasks.length">Save PDF</button>
+
             <div class="color-controls">
                 Task color: <input class="jscolor" ng-model="taskColor">
                 Subtask color: <input class="jscolor" ng-model="subtaskColor">

@@ -33,10 +33,12 @@ var getMockedData = function(fileName, callback) {
     var url = './mocks/' + fileName + '.json';
     fs.readFile(url, 'utf8', function (error, data){
         if (error) {
-            error.status = "error";
-            error.codeno = 404;
-            error.msg = "getMockedData: Error retrieving mocked issue data";
-            res.status(404).json(error);
+            var errorResponse = {};
+            errorResponse.status = "error";
+            errorResponse.codeno = 404;
+            errorResponse.msg = "getMockedData: Error retrieving mocked issue data";
+            errorResponse.data = error;
+            res.status(404).json(errorResponse);
         }
 
         data = JSON.parse(data);
@@ -73,7 +75,7 @@ app.get('/findIssue/:issueNumber', function (req, res) {
                 errorResponse.codeno = 404;
                 errorResponse.msg = "findIssue: Error retrieving mocked issue data";
                 errorResponse.data = error;
-                res.status(404).json(error);
+                res.status(404).json(errorResponse);
             }
         } else {
             issue.status = "success";

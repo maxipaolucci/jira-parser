@@ -33,7 +33,7 @@ body {
   .jira-tiles .jira-task-container {
     border-bottom: solid 1px #000000; }
   .jira-tiles .jira-task {
-    width: 10cm;
+    width: 370px;
     min-height: 3cm;
     border: solid 2px #000000;
     margin: 10px; }

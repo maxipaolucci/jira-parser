@@ -6,14 +6,13 @@ angular.module('printjira').service('jiraIssueService',function ($http, $q, $tim
         var deferred = $q.defer();
         var url = host + 'findIssue/' + issueNumber;
 
-        $timeout(function() {
-        $http.get(url)
-            .success(function(data){
-                deferred.resolve(data);
-            }).error(function(){
+        //$timeout(function() {
+        $http.get(url).success(function(data){
+            deferred.resolve(data);
+        }).error(function(){
             deferred.reject('There was an error trying to retrieve the isssue number: ' + issueNumber);
         });
-        }, 2000);
+        //}, 2000);
 
         return deferred.promise;
     };
@@ -27,11 +26,10 @@ angular.module('printjira').service('jiraIssueService',function ($http, $q, $tim
         };
 
         //$timeout(function() {
-        $http.post(url, datas)
-          .success(function(data){
+        $http.post(url, datas).success(function(data){
             deferred.resolve(data);
-          }).error(function(error){
-          deferred.reject('There was an error trying login: ' + error);
+        }).error(function(error){
+            deferred.reject('There was an error trying login: ' + error);
         });
         //}, 2000);
 
@@ -42,12 +40,11 @@ angular.module('printjira').service('jiraIssueService',function ($http, $q, $tim
         var deferred = $q.defer();
         var url = host + 'logout';
 
-        $http.get(url)
-            .success(function(data){
-                deferred.resolve(data);
-            }).error(function(){
-                deferred.reject('There was an error trying to do logout.');
-            });
+        $http.get(url).success(function(data){
+            deferred.resolve(data);
+        }).error(function(){
+            deferred.reject('There was an error trying to do logout.');
+        });
         return deferred.promise;
     };
 });
