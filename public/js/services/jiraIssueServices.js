@@ -2,9 +2,9 @@ angular.module('printjira').service('jiraIssueService',function ($http, $q, $tim
 
     var host = 'http://localhost:3000/';
 
-    this.getIssue = function (issueNumber) {
+    this.getIssue = function (username, issueNumber) {
         var deferred = $q.defer();
-        var url = host + 'findIssue/' + issueNumber;
+        var url = host + 'findIssue/' + username + '/' + issueNumber;
 
         //$timeout(function() {
         $http.get(url).success(function(data){
@@ -36,9 +36,9 @@ angular.module('printjira').service('jiraIssueService',function ($http, $q, $tim
         return deferred.promise;
     };
 
-    this.logout = function (user, pass) {
+    this.logout = function (username) {
         var deferred = $q.defer();
-        var url = host + 'logout';
+        var url = host + 'logout/' + username;
 
         $http.get(url).success(function(data){
             deferred.resolve(data);

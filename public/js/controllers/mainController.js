@@ -29,7 +29,7 @@ angular.module('printjira').controller('mainController', function($scope, $log, 
 
       angular.forEach(issueNumbers, function(issueNumber) {
         issueNumber = issueNumber.trim();
-        jiraIssueService.getIssue(issueNumber).then(function(data) {
+        jiraIssueService.getIssue($scope.jiraUser, issueNumber).then(function(data) {
           if (data.status == "success") {
             $scope.tasks.push(data);
           } else {
@@ -73,7 +73,7 @@ angular.module('printjira').controller('mainController', function($scope, $log, 
      * Call the logout service in the server and disconnect the current session with jira server
      */
     $scope.logout = function () {
-      jiraIssueService.logout().then(function(data) {
+      jiraIssueService.logout($scope.jiraUser).then(function(data) {
         if (data.status == 'success') {
           $scope.logedIn = false;
         } else {

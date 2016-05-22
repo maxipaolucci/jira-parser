@@ -5,23 +5,61 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 var urlencode = bodyParser.urlencoded({extended: false});
 
-var config = {
-    protocol: 'https',
-    host: 'jira.vodafone.co.nz',
-    port: 443,
-    user: null,
-    password: null,
-    apiVersion: '2'
+
+var jiraConnectionsMap = {}; //this map is going to host all the connections request made by every user that login in the server
+var useMocks = true; //set this to true to use mocked data instead of real data from jira REST services
+
+var jira = null; //this will contain the jira object capable to access jira services (jiraConfigObj) is used to create this one
+
+
+//METHODS
+/**
+ * Return a new object capable to store the configuration to establish a connection against jira server
+ * @param username
+ * @param password
+ * @returns boolean. True is the jira connection obj is successfully created, otherwise false.
+ */
+var createJiraConnection = function(username, password) {
+
+    var jiraConfigObj = {
+        protocol: 'https',
+        host: 'jira.vodafone.co.nz',
+        port: 443,
+        user: username,
+        password: password,
+        apiVersion: '2'
+    };
+
+    jira = new JiraApi(jiraConfigObj.protocol, jiraConfigObj.host, jiraConfigObj.port, jiraConfigObj.user, jiraConfigObj.password, jiraConfigObj.apiVersion);
+    if (jira) {
+        //adds the object to the map under the unique username
+        jiraConnectionsMap[username] = jira;
+        return true;
+    }
+
+    return false;
 };
 
-var useMocks = false;
+/**
+ * return the jiraConnection for the username as param. If not set then returns null
+ * @param username
+ * @returns Object
+ */
+var getJiraconnectionObj = function(username) {
+    if (username && jiraConnectionsMap[username]) {
+        return jiraConnectionsMap[username];
+    }
 
-var jira = null; //will contain the jira object created on login route
+    return null;
+};
 
-var clearLoginData = function () {
-    config.user = null;
-    config.password = null;
-    jira = null;
+/**
+ * this method clears all the connection data against Jira. Used mainly by logout service
+ */
+var clearLoginData = function (username) {
+    if (username) {
+        jiraConnectionsMap[username] = null;
+    }
 };
 
 /**
@@ -47,43 +85,73 @@ var getMockedData = function(fileName, callback) {
 };
 
 
+//MIDLEWARE AND SERVER STARTER
 app.use(bodyParser.json());
 app.use(express.static('public'));
+app.use(function (req, res, next) {
+    console.log(req.params);
+
+    if (req.method === 'GET') {
+        //authentication middleware
+        var username = req.params.username;
+        console.log(username);
+        console.log(jiraConnectionsMap[username]);
+        if (username && jiraConnectionsMap[username]) {
+            next();
+        }
+
+        res.status(400).json({
+            status: "error",
+            codeno: 400,
+            msg: "auth middleware: Invalid or empty username or the username has not got a valid jira session. Username: " + username
+        });
+    }
+
+    //method is post, put or delete
+    next();
+});
 
 var port = 3000;
 app.listen(port, function () {
     console.log('Listening on port %d', port);
 });
 
-
-app.get('/findIssue/:issueNumber', function (req, res) {
+//SERVICES
+app.get('/findIssue/:username/:issueNumber', function (req, res) {
     var issueNumber = req.params.issueNumber;
+    var username = req.params.username;
 
-    jira.findIssue(issueNumber, function(error, issue) {
-        if (error) {
-            if (useMocks) {
-                //use mocked data
-                getMockedData('ticket', function (data) {
-                    data.status = "success";
-                    data.codeno = 200;
-                    data.msg = "";
-                    res.json(data);
-                });
+    if (issueNumber) {
+        jiraConnectionsMap[username].findIssue(issueNumber, function(error, issue) {
+            if (error) {
+                if (useMocks) {
+                    //use mocked data
+                    getMockedData('ticket', function (data) {
+                        data.status = "success";
+                        data.codeno = 200;
+                        data.msg = "";
+                        res.json(data);
+                    });
+                } else {
+                    var errorResponse = {};
+                    errorResponse.status = "error";
+                    errorResponse.codeno = 404;
+                    errorResponse.msg = "findIssue: Issue not found number: " + issueNumber;
+                    errorResponse.data = error;
+                    res.status(404).json(errorResponse);
+                }
             } else {
-                var errorResponse = {};
-                errorResponse.status = "error";
-                errorResponse.codeno = 404;
-                errorResponse.msg = "findIssue: Error retrieving mocked issue data";
-                errorResponse.data = error;
-                res.status(404).json(errorResponse);
+                issue.status = "success";
+                issue.codeno = 200;
+                issue.msg = "";
+                res.json(issue);
             }
-        } else {
-            issue.status = "success";
-            issue.codeno = 200;
-            issue.msg = "";
-            res.json(issue);
-        }
-    });
+        });
+    } else {
+        res.status(400).json({ status : "error", codeno : 400,
+            msg : "findIssue: Invalid or empty issueNumber. IssueNumber: " + issueNumber});
+    }
+
 });
 
 /**
@@ -91,42 +159,49 @@ app.get('/findIssue/:issueNumber', function (req, res) {
  */
 app.post('/login', urlencode, function (req, res) {
 
-    config.user = req.body.username;
-    config.password = req.body.password;
+    var username = req.body.username;
+    var password = req.body.password;
 
-    if (config.user && config.password) {
-        jira = new JiraApi(config.protocol, config.host, config.port, config.user, config.password, config.apiVersion);
-        
-        jira.searchUsers(config.user, 0, 1, true, false, function (error, users) {
-            console.log(users);
-            if (error) {
-                if (useMocks) {
-                    //use mocked data
-                    getMockedData('user', function (users) {
-                        res.json(users[0]);
-                    });
+    if (username && password) {
+        if (createJiraConnection(username, password)) {
+            jiraConnectionsMap[username].searchUsers(username, 0, 1, true, false, function (error, users) {
+                console.log(users);
+                if (error) {
+                    if (useMocks) {
+                        //use mocked data
+                        getMockedData('user', function (users) {
+                            res.json(users[0]);
+                        });
+                    } else {
+                        var errorResponse = {};
+                        errorResponse.status = "error";
+                        errorResponse.codeno = 404;
+                        errorResponse.msg = "searchUsers: User no found for username: " + username;
+                        errorResponse.data = error;
+                        clearLoginData(username);
+                        res.status(404).json(errorResponse);
+                    }
+                } else if (users[0].name == username && users[0].active) {
+                    users[0].status = "success";
+                    users[0].codeno = 200;
+                    users[0].msg = "";
+                    res.json(users[0]);
                 } else {
-                    var errorResponse = {};
-                    errorResponse.status = "error";
-                    errorResponse.codeno = 404;
-                    errorResponse.msg = "searchUsers: Service failed";
-                    errorResponse.data = error;
-                    clearLoginData();
-                    res.status(404).json(errorResponse);
+                    clearLoginData(username);
+                    var data = {
+                        status: "error",
+                        codeno: 404,
+                        msg: "login: User found but does not match the logedin one. Username: " +
+                            username + ', found: ' + users[0].name
+                    };
+                    res.status(404).json(data);
                 }
-            } else if (users[0].name == config.user && users[0].active) {
-                users[0].status = "success";
-                users[0].codeno = 200;
-                users[0].msg = "";
-                res.json(users[0]);
-            } else {
-                clearLoginData();
-                var data = {status: "error", codeno: 404, msg: "login: User not found"};
-                res.status(404).json(data);
-            }
-        });
+            });
+        } else {
+            var data = {status: "error", codeno: 404, msg: "login: Failed to create jira object with user: " + username};
+            res.status(404).json(data);
+        }
     } else {
-        clearLoginData();
         var data = {status: "error", codeno: 404, msg: "login: Username and/or password could not be empty"};
         res.status(404).json(data);
     }
@@ -135,7 +210,8 @@ app.post('/login', urlencode, function (req, res) {
 /**
  * Logout user
  */
-app.get('/logout', function (req, res) {
-    clearLoginData();
+app.get('/logout/:username', function (req, res) {
+    var username = req.params.username;
+    clearLoginData(username);
     res.json({ status : "success", codeno : 200, msg : ""});
 });
