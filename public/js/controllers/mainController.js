@@ -97,18 +97,22 @@ angular.module('printjira').controller('mainController', function($scope, $log, 
       /**
        * Generates the doc definition to export tasks table to PDF
        * @param JSON task . The task to render
+       * @param JSON parentTask . Null if this task has not got a parent, a json object(the parent task) if it is a subtask.
        * @param String type . This could be 'task' or 'subtask' representing the type of task to render
        * @param int tableWidth . The width of the table in px
        * @returns {{style: string, table: {widths: number[], body: *[]}}}
        */
-      var generateTaskDocDef = function (task, type, tableWidth) {
+      var generateTaskDocDef = function (task, parentTask, type, tableWidth) {
+        var key = parentTask ? parentTask.key : task.key;
+        var summary = parentTask ? task.key + ': ' + task.fields.summary : task.fields.summary;
+
         return {
           style: 'taskTable',
           table: {
             widths: [tableWidth],
             body: [
-              [{text: task.key, style: type + 'TableHeader' }],
-              [{text: task.fields.summary, style: type + 'TableSummary' }]
+              [{text: key, style: type + 'TableHeader' }],
+              [{text: summary, style: type + 'TableSummary' }]
             ]
           }
         };
@@ -117,7 +121,7 @@ angular.module('printjira').controller('mainController', function($scope, $log, 
       var pdfTasksDocDef = [];
       angular.forEach($scope.tasks, function (task) {
         //Create PDF definition for Task
-        pdfTasksDocDef.push(generateTaskDocDef(task, 'task', 230));
+        pdfTasksDocDef.push(generateTaskDocDef(task, null, 'task', 280));
 
         //Create PDF definition foreach subtask of the previous task
         if (task.fields.subtasks) {
@@ -126,11 +130,11 @@ angular.module('printjira').controller('mainController', function($scope, $log, 
             var subtask2 = i + 1 < task.fields.subtasks.length ? task.fields.subtasks[i + 1] : null;
 
             var pdfSubTaskDocDef = {
-              columns: [generateTaskDocDef(subtask, 'subtask', 125)]
+              columns: [generateTaskDocDef(subtask, task, 'subtask', 175)]
             };
 
             if (subtask2) {
-              pdfSubTaskDocDef.columns.push(generateTaskDocDef(subtask2, 'subtask', 125));
+              pdfSubTaskDocDef.columns.push(generateTaskDocDef(subtask2, task, 'subtask', 175));
             }
             pdfTasksDocDef.push(pdfSubTaskDocDef);
           }
@@ -156,23 +160,22 @@ angular.module('printjira').controller('mainController', function($scope, $log, 
           taskTableHeader: {
             alignment: 'center',
             bold: true,
-            fontSize: 12,
+            fontSize: 16,
             color: '#fff',
             fillColor: '#' + $scope.taskColor
           },
           taskTableSummary: {
-            bold: true,
-            fontSize: 10
+            fontSize: 14
           },
           subtaskTableHeader: {
             alignment: 'center',
             bold: true,
-            fontSize: 12,
+            fontSize: 14,
             color: '#fff',
             fillColor: '#' + $scope.subtaskColor
           },
           subtaskTableSummary: {
-            fontSize: 10
+            fontSize: 12
           }
         }
       };
