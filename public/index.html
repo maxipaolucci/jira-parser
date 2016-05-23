@@ -51,8 +51,8 @@
                 </div>
 
                 <div class="jira-task jira-task--subtask" ng-repeat="subtask in task.fields.subtasks">
-                    <div class="id" style="background-color: #{{subtaskColor}};">{{subtask.key}}</div>
-                    <div class="summary">{{subtask.fields.summary}}</div>
+                    <div class="id" style="background-color: #{{subtaskColor}};">{{task.key}}</div>
+                    <div class="summary">{{subtask.key}}: {{subtask.fields.summary}}</div>
                 </div>
                 <div class="clearfix"></div>
             </div>
