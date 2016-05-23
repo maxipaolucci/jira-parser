@@ -7,7 +7,7 @@ var urlencode = bodyParser.urlencoded({extended: false});
 
 
 var jiraConnectionsMap = {}; //this map is going to host all the connections request made by every user that login in the server
-var useMocks = false; //set this to true to use mocked data instead of real data from jira REST services
+var useMocks = true; //set this to true to use mocked data instead of real data from jira REST services
 
 var jira = null; //this will contain the jira object capable to access jira services (jiraConfigObj) is used to create this one
 
@@ -90,20 +90,22 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 var authMiddleware = function (req, res, next) {
-    if (req.method === 'GET') {
-      //authentication middleware
-      var username = req.params.username;
-      if (!username || !jiraConnectionsMap[username]) {
+    //authentication middleware
+    var username = null;
+    if (req.method === 'POST') {
+        username = req.body.username;
+    } else {
+        username = req.params.username;
+    }
+
+    if (!username || !jiraConnectionsMap[username]) {
         res.status(400).json({
             status: "error",
             codeno: 666,
             msg: "auth middleware (666): Invalid or empty username or the username has not got a valid jira session. Username: " + username
         });
-      } else {
-        next();
-      }
     } else {
-      next();
+        next();
     }
 };
 
