@@ -1,5 +1,0 @@
-1) run npm install
-2) in node_modules/jira/lib/jira.js  edit private method this.makeUri.
-Modify the beginning of the basepath ('rest/api/') to 'jira/rest/api'
-3) run in terminal > node app
-4) open in the broweser this url: http://localhost:3000
