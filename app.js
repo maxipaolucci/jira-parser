@@ -7,7 +7,7 @@ var urlencode = bodyParser.urlencoded({extended: false});
 
 
 var jiraConnectionsMap = {}; //this map is going to host all the connections request made by every user that login in the server
-var useMocks = true; //set this to true to use mocked data instead of real data from jira REST services
+var useMocks = false; //set this to true to use mocked data instead of real data from jira REST services
 
 var jira = null; //this will contain the jira object capable to access jira services (jiraConfigObj) is used to create this one
 
@@ -91,18 +91,20 @@ app.use(express.static('public'));
 
 var authMiddleware = function (req, res, next) {
     if (req.method === 'GET') {
-        //authentication middleware
-        var username = req.params.username;
-        if (!username || !jiraConnectionsMap[username]) {
-            res.status(400).json({
-                status: "error",
-                codeno: 400,
-                msg: "auth middleware: Invalid or empty username or the username has not got a valid jira session. Username: " + username
-            });
-        }
+      //authentication middleware
+      var username = req.params.username;
+      if (!username || !jiraConnectionsMap[username]) {
+        res.status(400).json({
+            status: "error",
+            codeno: 666,
+            msg: "auth middleware (666): Invalid or empty username or the username has not got a valid jira session. Username: " + username
+        });
+      } else {
+        next();
+      }
+    } else {
+      next();
     }
-
-    next();
 };
 
 //SERVER STARTER
@@ -118,29 +120,29 @@ app.get('/findIssue/:username/:issueNumber', authMiddleware, function (req, res)
 
     if (issueNumber) {
         jiraConnectionsMap[username].findIssue(issueNumber, function(error, issue) {
-            if (error) {
-                if (useMocks) {
-                    //use mocked data
-                    getMockedData('ticket', function (data) {
-                        data.status = "success";
-                        data.codeno = 200;
-                        data.msg = "";
-                        res.json(data);
-                    });
-                } else {
-                    var errorResponse = {};
-                    errorResponse.status = "error";
-                    errorResponse.codeno = 404;
-                    errorResponse.msg = "findIssue: Issue not found number: " + issueNumber;
-                    errorResponse.data = error;
-                    res.status(404).json(errorResponse);
-                }
+          if (error) {
+            if (useMocks) {
+              //use mocked data
+              getMockedData('ticket', function (data) {
+                data.status = "success";
+                data.codeno = 200;
+                data.msg = "";
+                res.json(data);
+              });
             } else {
-                issue.status = "success";
-                issue.codeno = 200;
-                issue.msg = "";
-                res.json(issue);
+              var errorResponse = {};
+              errorResponse.status = "error";
+              errorResponse.codeno = 404;
+              errorResponse.msg = "findIssue: Issue not found number: " + issueNumber;
+              errorResponse.data = error;
+              res.status(404).json(errorResponse);
             }
+          } else {
+            issue.status = "success";
+            issue.codeno = 200;
+            issue.msg = issueNumber;
+            res.json(issue);
+          }
         });
     } else {
         res.status(400).json({ status : "error", codeno : 400,

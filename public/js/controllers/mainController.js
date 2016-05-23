@@ -75,17 +75,17 @@ angular.module('printjira').controller('mainController', function($scope, $log, 
     $scope.logout = function () {
       jiraIssueService.logout($scope.jiraUser).then(function(data) {
         if (data.status == 'success') {
-          $scope.logedIn = false;
+          //do something
         } else {
           $log.warn('Cannot logout properly, the response is not success');
-          $scope.logedIn = false;
         }
       }, function (error) {
         $log.error(error);
-        $scope.logedIn = false;
       }).finally(function() {
         $scope.jiraPass = '';
         $scope.jiraUser = '';
+        $scope.logedIn = false;
+        $scope.tasks = [];
       });
     };
 

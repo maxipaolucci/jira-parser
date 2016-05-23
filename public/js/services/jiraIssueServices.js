@@ -9,7 +9,7 @@ angular.module('printjira').service('jiraIssueService',function ($http, $q, $tim
         //$timeout(function() {
         $http.get(url).success(function(data){
             deferred.resolve(data);
-        }).error(function(){
+        }).error(function(error){
             deferred.reject('There was an error trying to retrieve the isssue number: ' + issueNumber);
         });
         //}, 2000);
