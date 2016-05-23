@@ -4,8 +4,9 @@ var gulp = require('gulp'),
 
 var SASS_PATH = './public/css/src/*.scss';
 var CSS_PATH = './public/css';
+
 /**
- * Default task when just type gulp. Makes the build, starts watchers and start the server on localhost:3000
+ * Default task when just type gulp. Makes the build, starts watchers
  */
 gulp.task('default', function(callback) {
     runSequence('build', 'watch', callback);

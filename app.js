@@ -85,39 +85,34 @@ var getMockedData = function(fileName, callback) {
 };
 
 
-//MIDLEWARE AND SERVER STARTER
+//MIDLEWARES
 app.use(bodyParser.json());
 app.use(express.static('public'));
-app.use(function (req, res, next) {
-    console.log(req.params);
 
+var authMiddleware = function (req, res, next) {
     if (req.method === 'GET') {
         //authentication middleware
         var username = req.params.username;
-        console.log(username);
-        console.log(jiraConnectionsMap[username]);
-        if (username && jiraConnectionsMap[username]) {
-            next();
+        if (!username || !jiraConnectionsMap[username]) {
+            res.status(400).json({
+                status: "error",
+                codeno: 400,
+                msg: "auth middleware: Invalid or empty username or the username has not got a valid jira session. Username: " + username
+            });
         }
-
-        res.status(400).json({
-            status: "error",
-            codeno: 400,
-            msg: "auth middleware: Invalid or empty username or the username has not got a valid jira session. Username: " + username
-        });
     }
 
-    //method is post, put or delete
     next();
-});
+};
 
+//SERVER STARTER
 var port = 3000;
 app.listen(port, function () {
     console.log('Listening on port %d', port);
 });
 
 //SERVICES
-app.get('/findIssue/:username/:issueNumber', function (req, res) {
+app.get('/findIssue/:username/:issueNumber', authMiddleware, function (req, res) {
     var issueNumber = req.params.issueNumber;
     var username = req.params.username;
 
@@ -165,7 +160,7 @@ app.post('/login', urlencode, function (req, res) {
     if (username && password) {
         if (createJiraConnection(username, password)) {
             jiraConnectionsMap[username].searchUsers(username, 0, 1, true, false, function (error, users) {
-                console.log(users);
+
                 if (error) {
                     if (useMocks) {
                         //use mocked data
@@ -210,7 +205,7 @@ app.post('/login', urlencode, function (req, res) {
 /**
  * Logout user
  */
-app.get('/logout/:username', function (req, res) {
+app.get('/logout/:username', authMiddleware, function (req, res) {
     var username = req.params.username;
     clearLoginData(username);
     res.json({ status : "success", codeno : 200, msg : ""});
