@@ -16,14 +16,15 @@ gulp.task('default', (callback) => {
     runSequence('build', 'watch', callback);
 });
 
-gulp.task('build', function(callback) {
-  runSequence('sass', callback);
-});
+/**
+ * Proccess sass files and es2015 files.
+ */
+gulp.task('build', ['sass', 'es2015ToCommonJS']);
 
 /**
  * starts a watcher looking for any changes in the app js files
  */
-gulp.task('watch', function() {
+gulp.task('watch', () => {
     gulp.watch(SASS_PATH, ['build']);
 });
 
@@ -31,7 +32,7 @@ gulp.task('watch', function() {
 /**
  * compile all sass resources into css ones.
  */
-gulp.task('sass', function () {
+gulp.task('sass', () => {
   return gulp.src(SASS_PATH)
     .pipe(sass({
         style: 'compressed',
@@ -42,8 +43,11 @@ gulp.task('sass', function () {
     })).pipe(gulp.dest(CSS_PATH));
 });
 
+/**
+ * Converts all the files wrote with ES2015 insto common js files to be accessible by the browser
+ */
 gulp.task('es2015ToCommonJS', () => {
-  gulp.src('./**/*.es2015.js')
+  return gulp.src('./**/*.es2015.js')
       .pipe(rename(function(path) {
         //path.dirname += "/dist";
         path.basename = path.basename.split('.es2015')[0]; //removes babel from the basename (e.g.: app.babel => app)
