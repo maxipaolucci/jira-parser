@@ -20,7 +20,7 @@ var JiraIssueService = function () {
       var deferred = this.$q.defer();
       var url = this.HOST + '/findIssue/' + username + '/' + issueNumber;
 
-      //$timeout(() => {
+      //this.$timeout(() => {
       this.$http.get(url).success(function (data) {
         deferred.resolve(data);
       }).error(function (error) {
@@ -40,7 +40,7 @@ var JiraIssueService = function () {
         password: pass
       };
 
-      //$timeout(() => {
+      //this.$timeout(() => {
       this.$http.post(url, loginData).success(function (data) {
         deferred.resolve(data);
       }).error(function (error) {

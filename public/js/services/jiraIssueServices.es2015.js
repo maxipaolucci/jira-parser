@@ -12,7 +12,7 @@ class JiraIssueService {
     let deferred = this.$q.defer();
     let url = `${this.HOST}/findIssue/${username}/${issueNumber}`;
 
-    //$timeout(() => {
+    //this.$timeout(() => {
     this.$http.get(url).success((data) => {
       deferred.resolve(data);
     }).error((error) => {
@@ -31,7 +31,7 @@ class JiraIssueService {
       password: pass
     };
 
-    //$timeout(() => {
+    //this.$timeout(() => {
     this.$http.post(url, loginData).success((data) => {
       deferred.resolve(data);
     }).error((error) => {

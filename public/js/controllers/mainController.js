@@ -1,3 +1,4 @@
+
 angular.module('printjira').controller('mainController', function($scope, $log, $timeout, jiraIssueService) {
     var vm = this;
     vm.pdfDocDef = null;
