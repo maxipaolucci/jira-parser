@@ -9,7 +9,7 @@ var urlencode = bodyParser.urlencoded({extended: false});
 var jiraConnectionsMap = {}; //this map is going to host all the connections request made by every user that login in the server
 var useMocks = true; //set this to true to use mocked data instead of real data from jira REST services
 
-var jira = null; //this will contain the jira object capable to access jira services (jiraConfigObj) is used to create this one
+let jira = null; //this will contain the jira object capable to access jira services (jiraConfigObj) is used to create this one
 
 
 //METHODS
