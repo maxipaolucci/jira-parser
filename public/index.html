@@ -30,9 +30,7 @@
         <div class="ticket-form-container non-printable" >
             Ticket numbers (comma separated): <input ng-disabled="!logedIn" type="text" ng-model="issueNumbers" size="100" />
             <button type="button" ng-click="findJiraIssues()" ng-disabled="!logedIn">Submit</button>
-            <button type="button" ng-click="openPdf()" ng-disabled="!logedIn || !tasks.length">Open PDF</button>
-            <button type="button" ng-click="printPdf()" ng-disabled="!logedIn || !tasks.length">Print PDF</button>
-            <button type="button" ng-click="downloadPdf()" ng-disabled="!logedIn || !tasks.length">Save PDF</button>
+            <pdf-exporter loged-in="{{logedIn}}" tasks="{{tasks}}" task-color="{{taskColor}}" subtask-color="{{subtaskColor}}"></pdf-exporter>
 
             <div class="color-controls">
                 Task color: <input class="jscolor" ng-model="taskColor">
@@ -76,6 +74,7 @@
 
     <!-- DIRECTIVES -->
     <script src="/js/directives/loading-icon/loading-icon.component.js"></script>
+    <script src="/js/directives/pdf-exporter/pdf-exporter.component.js"></script>
 
     <!-- CONTROLLERS -->
     <script src="/js/controllers/mainController.js"></script>
