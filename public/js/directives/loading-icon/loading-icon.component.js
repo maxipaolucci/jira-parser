@@ -1,4 +1,8 @@
-'use strict';
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -8,11 +12,4 @@ var LoadingIconCtrl = function LoadingIconCtrl($scope) {
   this.$scope = $scope;
 };
 
-angular.module('printjira').directive('loadingIcon', function () {
-  return {
-    restrict: 'E',
-    scope: {},
-    templateUrl: '/js/directives/loading-icon/loading-icon.html',
-    controller: LoadingIconCtrl
-  };
-});
+exports.default = LoadingIconCtrl;

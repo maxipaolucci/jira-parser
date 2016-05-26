@@ -1,4 +1,4 @@
-class PdfExporterCtrl {
+export default class PdfExporterCtrl {
   constructor($scope) {
     this.pdfDocDef = null;
     this.tasksArray = [];
@@ -134,17 +134,3 @@ class PdfExporterCtrl {
   }
 
 }
-
-angular.module('printjira').directive('pdfExporter', () => {
-  return {
-    restrict : 'E',
-    scope : {
-      tasks : '@',
-      taskColor : '@',
-      subtaskColor : '@',
-      logedIn : '@'
-    },
-    templateUrl : '/js/directives/pdf-exporter/pdf-exporter.html',
-    controller : PdfExporterCtrl
-  };
-});
