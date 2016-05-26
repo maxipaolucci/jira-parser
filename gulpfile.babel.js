@@ -5,6 +5,8 @@ import runSequence from "run-sequence"; //for run task in order and not in paral
 import sass from "gulp-sass"; //for compile sass
 import babel from "gulp-babel";
 import rename from "gulp-rename";
+import browserify from "browserify";
+import source from "vinyl-source-stream";
 
 let SASS_PATH = './public/css/src/*.scss';
 let CSS_PATH = './public/css';
@@ -46,13 +48,41 @@ gulp.task('sass', () => {
 /**
  * Converts all the files wrote with ES2015 insto common js files to be accessible by the browser
  */
-gulp.task('es2015ToCommonJS', () => {
-  return gulp.src('./**/*.es2015.js')
+gulp.task('es2015ToCommonJS', (callback) => {
+  runSequence('es2015ToCommonJSTranslation', 'mainJSGeneration', callback);
+});
+
+/**
+ * Translates all the ES2015 files into CommonJS files in the server as well as in the client
+ */
+gulp.task('es2015ToCommonJSTranslation', () => {
+  //this one if for the server (it doesn't group dependencies)
+  gulp.src('./*.es2015.js')
+    .pipe(rename(function(path) {
+      //path.dirname += "/dist";
+      path.basename = path.basename.split('.es2015')[0]; //removes babel from the basename (e.g.: app.babel => app)
+      path.extname = ".js"
+    }))
+    .pipe(babel())
+    .pipe(gulp.dest('./'));
+
+  return gulp.src('./public/**/*.es2015.js')
       .pipe(rename(function(path) {
         //path.dirname += "/dist";
         path.basename = path.basename.split('.es2015')[0]; //removes babel from the basename (e.g.: app.babel => app)
         path.extname = ".js"
       }))
       .pipe(babel())
-      .pipe(gulp.dest('./'));
+      .pipe(gulp.dest('./public'));
+});
+
+/**
+ * 
+ */
+gulp.task('mainJSGeneration', () => {
+  return browserify('public/js/main.es2015.js')
+    .transform('babelify')
+    .bundle()
+    .pipe(source('main.js'))
+    .pipe(gulp.dest('public/js'));
 });

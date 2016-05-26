@@ -1,4 +1,4 @@
-class JiraIssueService {
+export default class JiraIssueService {
 
   constructor($http, $q, $timeout) {
     this.HOST = 'http://localhost:3000';
@@ -55,5 +55,3 @@ class JiraIssueService {
     return deferred.promise;
   }
 }
-
-angular.module('printjira').service('jiraIssueService', JiraIssueService);

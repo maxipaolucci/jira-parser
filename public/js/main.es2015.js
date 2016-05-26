@@ -1,4 +1,4 @@
-/**
- * Created by mpaoluc on 20/05/2016.
- */
+import JiraIssueService from './services/jiraIssueServices';
+
 angular.module('printjira', []);
+angular.module('printjira').service('jiraIssueService', JiraIssueService);
