@@ -53,7 +53,7 @@ gulp.task('es2015ToCommonJS', (callback) => {
 });
 
 /**
- * Translates all the ES2015 files into CommonJS files in the server as well as in the client
+ * Translates all the ES2015 files into Common JS files in the server as well as in the client
  */
 gulp.task('es2015ToCommonJSTranslation', () => {
   //this one if for the server (it doesn't group dependencies)
@@ -77,9 +77,11 @@ gulp.task('es2015ToCommonJSTranslation', () => {
 });
 
 /**
- * 
+ * Translates the main.js file in the client from ES2015 to Common JS using babel but also includes all the required files from this one inside it.
+ * Thanks to this task we do not need to include all the javascript resources in the index.html
  */
 gulp.task('mainJSGeneration', () => {
+  
   return browserify('public/js/main.es2015.js')
     .transform('babelify')
     .bundle()
