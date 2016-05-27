@@ -8,9 +8,17 @@ import rename from "gulp-rename";
 import browserify from "browserify";
 import source from "vinyl-source-stream";
 
-let SASS_PATH = './public/css/src/*.scss';
-let CSS_PATH = './public/css';
+//CSS and SCSS paths
+const MAIN_SASS_RES = './public/css/src/*.scss'; //get main sass resources
+const COMP_SASS_RES = './public/js/directives/**/*.scss'; //get directives sass resources
+const ALL_SASS_RES = [MAIN_SASS_RES, COMP_SASS_RES]; //get all sass resources
+const CSS_PATH = './public/css'; //css path
 
+//JS paths
+const SERVER_JS_RES = './*.es2015.js'; //get js resources in server
+const CLIENT_JS_RES = './public/**/*.es2015.js'; //get js resources in public
+const ALL_JS_RES = [SERVER_JS_RES, CLIENT_JS_RES]; //get all js resources
+const PUBLIC_PATH = './public'; //path to public
 /**
  * Default task when just type gulp. Makes the build, starts watchers
  */
@@ -27,21 +35,21 @@ gulp.task('build', ['sass', 'es2015ToCommonJS']);
  * starts a watcher looking for any changes in the app js files
  */
 gulp.task('watch', () => {
-    gulp.watch(SASS_PATH, ['build']);
+  gulp.watch(ALL_SASS_RES, ['sass']);
+  gulp.watch(ALL_JS_RES, ['es2015ToCommonJS']);
 });
-
 
 /**
  * compile all sass resources into css ones.
  */
 gulp.task('sass', () => {
-  return gulp.src(SASS_PATH)
+  return gulp.src(MAIN_SASS_RES)
     .pipe(sass({
-        style: 'compressed',
-        errLogToConsole: false,
-        onError: function(err) {
-            return notify().write(err);
-        }
+      style: 'compressed',
+      errLogToConsole: false,
+      onError: function(err) {
+        return notify().write(err);
+      }
     })).pipe(gulp.dest(CSS_PATH));
 });
 
@@ -57,7 +65,7 @@ gulp.task('es2015ToCommonJS', (callback) => {
  */
 gulp.task('es2015ToCommonJSTranslation', () => {
   //this one if for the server (it doesn't group dependencies)
-  gulp.src('./*.es2015.js')
+  gulp.src(SERVER_JS_RES)
     .pipe(rename(function(path) {
       //path.dirname += "/dist";
       path.basename = path.basename.split('.es2015')[0]; //removes babel from the basename (e.g.: app.babel => app)
@@ -66,14 +74,14 @@ gulp.task('es2015ToCommonJSTranslation', () => {
     .pipe(babel())
     .pipe(gulp.dest('./'));
 
-  return gulp.src('./public/**/*.es2015.js')
-      .pipe(rename(function(path) {
-        //path.dirname += "/dist";
-        path.basename = path.basename.split('.es2015')[0]; //removes babel from the basename (e.g.: app.babel => app)
-        path.extname = ".js"
-      }))
-      .pipe(babel())
-      .pipe(gulp.dest('./public'));
+  return gulp.src(CLIENT_JS_RES)
+    .pipe(rename(function(path) {
+      //path.dirname += "/dist";
+      path.basename = path.basename.split('.es2015')[0]; //removes babel from the basename (e.g.: app.babel => app)
+      path.extname = ".js"
+    }))
+    .pipe(babel())
+    .pipe(gulp.dest(PUBLIC_PATH));
 });
 
 /**
