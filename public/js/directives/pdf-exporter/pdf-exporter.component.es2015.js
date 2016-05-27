@@ -9,7 +9,7 @@ export default class PdfExporterCtrl {
       this.tasksArray = [];
       this.tasksArray = JSON.parse(newValue);
     });
-
+    
     /**
      * Handles openPdf btn
      */

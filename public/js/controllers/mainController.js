@@ -6,7 +6,6 @@ angular.module('printjira').controller('mainController', function($scope, $log, 
     $scope.subtaskColor = '1E90FF';
     $scope.logedIn = false;
     $scope.jiraUser = '';
-    $scope.jiraPass = '';
     $scope.tasks = [];
 
     /**
@@ -41,46 +40,5 @@ angular.module('printjira').controller('mainController', function($scope, $log, 
       });
     };
 
-    /**
-     * Call the login service in the server sending login data to create a connection with jira in the
-     * backend
-     */
-    $scope.login = function () {
-      var loadingIconLogin = angular.element('body').find('.loading-icon--login');
-      loadingIconLogin.show();
-      
-      jiraIssueService.login($scope.jiraUser, $scope.jiraPass).then(function(data) {
-        if (data.status == 'success' && data.name == $scope.jiraUser) {
-          $scope.logedIn = true;
-        } else {
-          $log.warn('Cannot login: the service return with an error or different username than the requested');
-          $scope.logedIn = false;
-        }
-      }, function (error) {
-        $log.error(error);
-        $scope.logedIn = false;
-      }).finally(function() {
-        loadingIconLogin.hide();
-      });
-    };
-
-    /**
-     * Call the logout service in the server and disconnect the current session with jira server
-     */
-    $scope.logout = function () {
-      jiraIssueService.logout($scope.jiraUser).then(function(data) {
-        if (data.status == 'success') {
-          //do something
-        } else {
-          $log.warn('Cannot logout properly, the response is not success');
-        }
-      }, function (error) {
-        $log.error(error);
-      }).finally(function() {
-        $scope.jiraPass = '';
-        $scope.jiraUser = '';
-        $scope.logedIn = false;
-        $scope.tasks = [];
-      });
-    };
+    
 });

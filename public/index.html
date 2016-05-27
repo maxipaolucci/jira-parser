@@ -8,19 +8,7 @@
 </head>
 <body >
     <div ng-controller="mainController as mainCtrl">
-        <!-- login form container -->
-        <div class="login-container non-printable">
-            <div ng-hide="logedIn" class="">
-                Jira user: <input type="text" ng-model="jiraUser" />
-                Jira password: <input type="password" ng-model="jiraPass" />
-                <button type="button" ng-click="login()">Login</button>
-                <loading-icon class="loading-icon--login"></loading-icon>
-            </div>
-            <div ng-show="logedIn">
-                <span class="logedIn-name">Welcome {{jiraUser}}!</span>
-                <button type="button" ng-click="logout()">Logout</button>
-            </div>
-        </div>
+        <login></login>
         <div class="clearfix"></div>
 
         <!-- App Title -->
