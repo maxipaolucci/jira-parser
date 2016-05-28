@@ -1,8 +1,12 @@
+FOLLOW THESE STEPS
+------------------
+
 1) install node and npm
 2) run npm install in a command line in the root folder of this project
 3) in node_modules/jira/lib/jira.js  edit private method this.makeUri.
     Modify the beginning of the basepath ('rest/api/') to 'jira/rest/api'
-4) run in command line >node app (to start the local server)
-5) navigate to this url: http://localhost:3000
-6) login using jira credentials
-7) submit one or more jira tickets separated by comma (,).
+4) run in command line >gulp build     (to translate es2015 to common js and compile sass)
+5) run in command line >node app       (to start the local server)
+6) navigate to this url: http://localhost:3000
+7) login using jira credentials
+8) submit one or more jira tickets separated by comma (,).
