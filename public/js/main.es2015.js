@@ -3,7 +3,7 @@ import LoadingIcon from './directives/loading-icon/loading-icon.component.es2015
 import Login from './directives/login/login.component.es2015';
 import TaskFinder from './directives/task-finder/task-finder.component.es2015';
 import PdfExporter from './directives/pdf-exporter/pdf-exporter.component.es2015';
-import MainCtrl from './controllers/mainController';
+import MainCtrl from './controllers/main.controller.es2015';
 
 angular.module('printjira', []);
 angular.module('printjira').service('jiraIssueService', JiraIssueService);

@@ -1,0 +1,55 @@
+task-finder {
+
+  loading-icon.loading-icon--task-finder {
+    display: none;
+  }
+
+  .ticket-form-container {
+    margin-top: 15px;
+
+    .color-controls {
+      margin-top: 5px;
+    }
+  }
+
+  .jira-tiles {
+    font-family: Arial;
+    width: 200mm;
+    border-right: dashed 1px #828282;
+
+    .jira-task-container {
+      border-bottom: solid 1px #000000;
+    }
+
+    .jira-task {
+      width: 370px;
+      min-height: 3cm;
+      border: solid 2px #000000;
+      margin: 10px;
+
+      .id {
+        font-weight: bold;
+        border-bottom: solid 2px #000000;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .summary {
+        padding: 10px;
+        font-weight: bold;
+        font-size: 14px;
+      }
+    }
+
+    .jira-task--subtask {
+      width: 7cm;
+      float: left;
+
+      .summary {
+        font-weight: normal;
+        font-size: 14px;
+      }
+    }
+  }
+}

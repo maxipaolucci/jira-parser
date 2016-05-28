@@ -22,7 +22,7 @@ export default class TaskFinderCtrl {
    */
   findJiraIssues() {
     this.$scope.tasks = [];
-    let loadingIconTasks = angular.element('body').find('.loading-icon--tasks');
+    let loadingIconTasks = angular.element('body').find('.loading-icon--task-finder');
 
     loadingIconTasks.show();
 
