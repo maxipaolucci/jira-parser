@@ -17,6 +17,11 @@ var PdfExporterCtrl = function () {
     this.pdfDocDef = null;
     this.tasksArray = [];
     this.$scope = $scope;
+    this.logedIn = false;
+
+    this.$scope.$watch('logedIn', function (newValue, oldValue) {
+      _this.logedIn = eval(newValue);
+    });
 
     this.$scope.$watch('tasks', function (newValue, oldValue) {
       _this.pdfDocDef = null;

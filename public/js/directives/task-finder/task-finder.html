@@ -1,0 +1,29 @@
+<!-- Ticket form container -->
+<div class="ticket-form-container non-printable" >
+    Ticket numbers (comma separated): <input ng-disabled="!taskFinderCtrl.logedIn" type="text" ng-model="taskFinderCtrl.issueNumbers" size="100" />
+    <button type="button" ng-click="taskFinderCtrl.findJiraIssues()" ng-disabled="!taskFinderCtrl.logedIn">Find</button>
+    <pdf-exporter loged-in="{{taskFinderCtrl.logedIn}}" tasks="{{tasks}}" task-color="{{taskFinderCtrl.taskColor}}" subtask-color="{{taskFinderCtrl.subtaskColor}}"></pdf-exporter>
+
+    <div class="color-controls">
+        Task color: <input class="task-color jscolor" ng-model="taskFinderCtrl.taskColor">
+        Subtask color: <input class="subtask-color jscolor" ng-model="taskFinderCtrl.subtaskColor">
+    </div>
+</div>
+
+<!-- Ticket cards container -->
+<div class="jira-tiles">
+    <loading-icon class="loading-icon--tasks"></loading-icon>
+    <div class="jira-task-container" ng-repeat="task in tasks">
+        <h3>{{task.key}}</h3>
+        <div class="jira-task">
+            <div class="id" style="background-color: #{{taskFinderCtrl.taskColor}};">{{task.key}}</div>
+            <div class="summary">{{task.fields.summary}}</div>
+        </div>
+
+        <div class="jira-task jira-task--subtask" ng-repeat="subtask in task.fields.subtasks">
+            <div class="id" style="background-color: #{{taskFinderCtrl.subtaskColor}};">{{task.key}}</div>
+            <div class="summary">{{subtask.key}}: {{subtask.fields.summary}}</div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

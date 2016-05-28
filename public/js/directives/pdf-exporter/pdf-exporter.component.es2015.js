@@ -3,6 +3,11 @@ export default class PdfExporterCtrl {
     this.pdfDocDef = null;
     this.tasksArray = [];
     this.$scope = $scope;
+    this.logedIn = false;
+
+    this.$scope.$watch('logedIn', (newValue, oldValue) => {
+      this.logedIn = eval(newValue);
+    });
 
     this.$scope.$watch('tasks', (newValue, oldValue) => {
       this.pdfDocDef = null;
