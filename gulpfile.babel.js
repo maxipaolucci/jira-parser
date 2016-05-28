@@ -74,6 +74,11 @@ gulp.task('es2015ToCommonJSTranslation', () => {
     .pipe(babel())
     .pipe(gulp.dest('./'));
 
+  /**
+   * This statement translate all the .es2015.js files in the client app to common js files.
+   * But now we are just using mainJSGeneration with automatically bundles all the requirements
+   * in the same file so we don't need to translate each file individually.
+  */
   // return gulp.src(CLIENT_JS_RES)
   //   .pipe(rename(function(path) {
   //     //path.dirname += "/dist";
