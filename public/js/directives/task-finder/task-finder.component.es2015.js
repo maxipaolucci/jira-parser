@@ -1,59 +1,27 @@
-export default class TaskFinderCtrl {
+import TaskFinderCtrl from './task-finder.controller.es2015';
 
-  constructor($scope, $log, $timeout, jiraIssueService) {
-    this.jiraIssueService = jiraIssueService;
-    this.$log = $log;
-    this.$scope = $scope;
-    this.logedIn = false;
-    this.issueNumbers = 'ATG-5971';
-    this.taskColor = '1E90FF';
-    this.subtaskColor = 'AC74FF';
-
-    this.$scope.$watch('logedIn', (newValue, oldValue) => {
-      this.logedIn = eval(newValue);
-    });
-
-    this.initializeColorPickers();
+export default class TaskFinder {
+  constructor() {
+    this.restrict = 'E';
+    this.templateUrl = '/js/directives/task-finder/task-finder.html';
+    this.controller = TaskFinderCtrl;
+    this.controllerAs = 'taskFinderCtrl';
+    this.scope = {
+      logedIn : '@',
+      jiraUser : '@',
+      tasks : '='
+    };
   }
 
-  initializeColorPickers() {
-    let taskColorPicker = angular.element('body').find('.task-color').get(0);
-    let subtaskColorPicker = angular.element('body').find('.subtask-color').get(0);
+  link(scope, element, attrs) {
+    let initializeColorPickers = () => {
+      let taskColorPicker = element.find('.task-color').get(0);
+      let subtaskColorPicker = element.find('.subtask-color').get(0);
 
-    new jscolor(taskColorPicker);
-    new jscolor(subtaskColorPicker);
+      new jscolor(taskColorPicker);
+      new jscolor(subtaskColorPicker);
+    };
+
+    initializeColorPickers();
   }
-
-  /**
-   * Calls the service that retrieve jira issues from JIRA and populates the array of tickets to
-   * be print
-   */
-  findJiraIssues() {
-    this.$scope.tasks = [];
-    let loadingIconTasks = angular.element('body').find('.loading-icon--tasks');
-
-    loadingIconTasks.show();
-
-    let issueNumbers = this.issueNumbers.split(',');
-    let issueServicesFinished = 0;
-
-    angular.forEach(issueNumbers, (issueNumber) => {
-      issueNumber = issueNumber.trim();
-      this.jiraIssueService.getIssue(this.$scope.jiraUser, issueNumber).then((data) => {
-        if (data.status == "success") {
-          this.$scope.tasks.push(data);
-        } else {
-          this.$log.warn(`Cannot retrieve the issue data for id: ${issueNumber}`);
-        }
-      }, (error) => {
-        this.$log.log(error);
-      }).finally(() => {
-        issueServicesFinished += 1;
-        if (issueServicesFinished == issueNumbers.length) {
-          loadingIconTasks.hide();
-        }
-      });
-    });
-  }
-
 }

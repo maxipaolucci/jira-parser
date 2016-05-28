@@ -1,8 +1,8 @@
-import JiraIssueService from './services/jiraIssueServices';
-import LoadingIconCtrl from './directives/loading-icon/loading-icon.component';
-import LoginCtrl from './directives/login/login.component';
-import TaskFinderCtrl from './directives/task-finder/task-finder.component';
-import PdfExporterCtrl from './directives/pdf-exporter/pdf-exporter.component';
+import JiraIssueService from './services/jiraIssueServices.es2015';
+import LoadingIconCtrl from './directives/loading-icon/loading-icon.component.es2015';
+import LoginCtrl from './directives/login/login.component.es2015';
+import TaskFinder from './directives/task-finder/task-finder.component.es2015';
+import PdfExporterCtrl from './directives/pdf-exporter/pdf-exporter.component.es2015';
 import MainCtrl from './controllers/mainController';
 
 angular.module('printjira', []);
@@ -42,17 +42,5 @@ angular.module('printjira').directive('login', () => {
     }
   };
 });
-angular.module('printjira').directive('taskFinder', () => {
-  return {
-    restrict : 'E',
-    templateUrl : '/js/directives/task-finder/task-finder.html',
-    controller : TaskFinderCtrl,
-    controllerAs : 'taskFinderCtrl',
-    scope : {
-      logedIn : '@',
-      jiraUser : '@',
-      tasks : '='
-    }
-  };
-});
+angular.module('printjira').directive('taskFinder', () => new TaskFinder);
 angular.module('printjira').controller('mainController', MainCtrl);

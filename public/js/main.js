@@ -24,11 +24,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var LoadingIconCtrl = function LoadingIconCtrl($scope) {
   _classCallCheck(this, LoadingIconCtrl);
@@ -45,21 +41,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-  };
-}();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var LoginCtrl = function () {
   function LoginCtrl($scope, $log, jiraIssueService) {
@@ -75,6 +59,7 @@ var LoginCtrl = function () {
    * Call the login service in the server sending login data to create a connection with jira in the
    * backend
    */
+
 
   _createClass(LoginCtrl, [{
     key: 'login',
@@ -137,21 +122,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-  };
-}();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var PdfExporterCtrl = function () {
   function PdfExporterCtrl($scope) {
@@ -183,6 +156,7 @@ var PdfExporterCtrl = function () {
    * Handles openPdf btn
    */
 
+
   _createClass(PdfExporterCtrl, [{
     key: 'openPdf',
     value: function openPdf() {
@@ -193,6 +167,7 @@ var PdfExporterCtrl = function () {
     }
   }, {
     key: 'printPdf',
+
 
     /**
      * Handles printPdf btn
@@ -206,6 +181,7 @@ var PdfExporterCtrl = function () {
   }, {
     key: 'downloadPdf',
 
+
     /**
      * Handles savePdf btn
      */
@@ -217,6 +193,7 @@ var PdfExporterCtrl = function () {
     }
   }, {
     key: '_generatesPdfDefinition',
+
 
     /**
      * Generates a pdf definition for the tasks in the vm.tasksArrays array and cache the result in vm.pdfDocDef
@@ -324,21 +301,61 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _taskFinderController = require('./task-finder.controller.es2015');
+
+var _taskFinderController2 = _interopRequireDefault(_taskFinderController);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var TaskFinder = function () {
+  function TaskFinder() {
+    _classCallCheck(this, TaskFinder);
+
+    this.restrict = 'E';
+    this.templateUrl = '/js/directives/task-finder/task-finder.html';
+    this.controller = _taskFinderController2.default;
+    this.controllerAs = 'taskFinderCtrl';
+    this.scope = {
+      logedIn: '@',
+      jiraUser: '@',
+      tasks: '='
+    };
+  }
+
+  _createClass(TaskFinder, [{
+    key: 'link',
+    value: function link(scope, element, attrs) {
+      var initializeColorPickers = function initializeColorPickers() {
+        var taskColorPicker = element.find('.task-color').get(0);
+        var subtaskColorPicker = element.find('.subtask-color').get(0);
+
+        new jscolor(taskColorPicker);
+        new jscolor(subtaskColorPicker);
+      };
+
+      initializeColorPickers();
     }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-  };
+  }]);
+
+  return TaskFinder;
 }();
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
+exports.default = TaskFinder;
+
+},{"./task-finder.controller.es2015":6}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var TaskFinderCtrl = function () {
   function TaskFinderCtrl($scope, $log, $timeout, jiraIssueService) {
@@ -357,26 +374,15 @@ var TaskFinderCtrl = function () {
     this.$scope.$watch('logedIn', function (newValue, oldValue) {
       _this.logedIn = eval(newValue);
     });
-
-    this.initializeColorPickers();
   }
 
+  /**
+   * Calls the service that retrieve jira issues from JIRA and populates the array of tickets to
+   * be print
+   */
+
+
   _createClass(TaskFinderCtrl, [{
-    key: 'initializeColorPickers',
-    value: function initializeColorPickers() {
-      var taskColorPicker = angular.element('body').find('.task-color').get(0);
-      var subtaskColorPicker = angular.element('body').find('.subtask-color').get(0);
-
-      new jscolor(taskColorPicker);
-      new jscolor(subtaskColorPicker);
-    }
-
-    /**
-     * Calls the service that retrieve jira issues from JIRA and populates the array of tickets to
-     * be print
-     */
-
-  }, {
     key: 'findJiraIssues',
     value: function findJiraIssues() {
       var _this2 = this;
@@ -414,28 +420,28 @@ var TaskFinderCtrl = function () {
 
 exports.default = TaskFinderCtrl;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
-var _jiraIssueServices = require('./services/jiraIssueServices');
+var _jiraIssueServices = require('./services/jiraIssueServices.es2015');
 
 var _jiraIssueServices2 = _interopRequireDefault(_jiraIssueServices);
 
-var _loadingIcon = require('./directives/loading-icon/loading-icon.component');
+var _loadingIconComponent = require('./directives/loading-icon/loading-icon.component.es2015');
 
-var _loadingIcon2 = _interopRequireDefault(_loadingIcon);
+var _loadingIconComponent2 = _interopRequireDefault(_loadingIconComponent);
 
-var _login = require('./directives/login/login.component');
+var _loginComponent = require('./directives/login/login.component.es2015');
 
-var _login2 = _interopRequireDefault(_login);
+var _loginComponent2 = _interopRequireDefault(_loginComponent);
 
-var _taskFinder = require('./directives/task-finder/task-finder.component');
+var _taskFinderComponent = require('./directives/task-finder/task-finder.component.es2015');
 
-var _taskFinder2 = _interopRequireDefault(_taskFinder);
+var _taskFinderComponent2 = _interopRequireDefault(_taskFinderComponent);
 
-var _pdfExporter = require('./directives/pdf-exporter/pdf-exporter.component');
+var _pdfExporterComponent = require('./directives/pdf-exporter/pdf-exporter.component.es2015');
 
-var _pdfExporter2 = _interopRequireDefault(_pdfExporter);
+var _pdfExporterComponent2 = _interopRequireDefault(_pdfExporterComponent);
 
 var _mainController = require('./controllers/mainController');
 
@@ -450,7 +456,7 @@ angular.module('printjira').directive('loadingIcon', function () {
     restrict: 'E',
     scope: {},
     templateUrl: '/js/directives/loading-icon/loading-icon.html',
-    controller: _loadingIcon2.default
+    controller: _loadingIconComponent2.default
   };
 });
 angular.module('printjira').directive('pdfExporter', function () {
@@ -463,7 +469,7 @@ angular.module('printjira').directive('pdfExporter', function () {
       logedIn: '@'
     },
     templateUrl: '/js/directives/pdf-exporter/pdf-exporter.html',
-    controller: _pdfExporter2.default,
+    controller: _pdfExporterComponent2.default,
     controllerAs: 'pdfExporterCtrl'
   };
 });
@@ -471,7 +477,7 @@ angular.module('printjira').directive('login', function () {
   return {
     restrict: 'E',
     templateUrl: '/js/directives/login/login.html',
-    controller: _login2.default,
+    controller: _loginComponent2.default,
     controllerAs: 'loginCtrl',
     scope: {
       logedIn: '=',
@@ -481,42 +487,20 @@ angular.module('printjira').directive('login', function () {
   };
 });
 angular.module('printjira').directive('taskFinder', function () {
-  return {
-    restrict: 'E',
-    templateUrl: '/js/directives/task-finder/task-finder.html',
-    controller: _taskFinder2.default,
-    controllerAs: 'taskFinderCtrl',
-    scope: {
-      logedIn: '@',
-      jiraUser: '@',
-      tasks: '='
-    }
-  };
+  return new _taskFinderComponent2.default();
 });
 angular.module('printjira').controller('mainController', _mainController2.default);
 
-},{"./controllers/mainController":1,"./directives/loading-icon/loading-icon.component":2,"./directives/login/login.component":3,"./directives/pdf-exporter/pdf-exporter.component":4,"./directives/task-finder/task-finder.component":5,"./services/jiraIssueServices":7}],7:[function(require,module,exports){
+},{"./controllers/mainController":1,"./directives/loading-icon/loading-icon.component.es2015":2,"./directives/login/login.component.es2015":3,"./directives/pdf-exporter/pdf-exporter.component.es2015":4,"./directives/task-finder/task-finder.component.es2015":5,"./services/jiraIssueServices.es2015":8}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-  };
-}();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var JiraIssueService = function () {
   function JiraIssueService($http, $q, $timeout) {
@@ -585,4 +569,4 @@ var JiraIssueService = function () {
 
 exports.default = JiraIssueService;
 
-},{}]},{},[6]);
+},{}]},{},[7]);

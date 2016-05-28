@@ -6,78 +6,45 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _taskFinderController = require('./task-finder.controller.es2015');
+
+var _taskFinderController2 = _interopRequireDefault(_taskFinderController);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var TaskFinderCtrl = function () {
-  function TaskFinderCtrl($scope, $log, $timeout, jiraIssueService) {
-    var _this = this;
+var TaskFinder = function () {
+  function TaskFinder() {
+    _classCallCheck(this, TaskFinder);
 
-    _classCallCheck(this, TaskFinderCtrl);
-
-    this.jiraIssueService = jiraIssueService;
-    this.$log = $log;
-    this.$scope = $scope;
-    this.logedIn = false;
-    this.issueNumbers = 'ATG-5971';
-    this.taskColor = '1E90FF';
-    this.subtaskColor = 'AC74FF';
-
-    this.$scope.$watch('logedIn', function (newValue, oldValue) {
-      _this.logedIn = eval(newValue);
-    });
-
-    this.initializeColorPickers();
+    this.restrict = 'E';
+    this.templateUrl = '/js/directives/task-finder/task-finder.html';
+    this.controller = _taskFinderController2.default;
+    this.controllerAs = 'taskFinderCtrl';
+    this.scope = {
+      logedIn: '@',
+      jiraUser: '@',
+      tasks: '='
+    };
   }
 
-  _createClass(TaskFinderCtrl, [{
-    key: 'initializeColorPickers',
-    value: function initializeColorPickers() {
-      var taskColorPicker = angular.element('body').find('.task-color').get(0);
-      var subtaskColorPicker = angular.element('body').find('.subtask-color').get(0);
+  _createClass(TaskFinder, [{
+    key: 'link',
+    value: function link(scope, element, attrs) {
+      var initializeColorPickers = function initializeColorPickers() {
+        var taskColorPicker = element.find('.task-color').get(0);
+        var subtaskColorPicker = element.find('.subtask-color').get(0);
 
-      new jscolor(taskColorPicker);
-      new jscolor(subtaskColorPicker);
-    }
+        new jscolor(taskColorPicker);
+        new jscolor(subtaskColorPicker);
+      };
 
-    /**
-     * Calls the service that retrieve jira issues from JIRA and populates the array of tickets to
-     * be print
-     */
-
-  }, {
-    key: 'findJiraIssues',
-    value: function findJiraIssues() {
-      var _this2 = this;
-
-      this.$scope.tasks = [];
-      var loadingIconTasks = angular.element('body').find('.loading-icon--tasks');
-
-      loadingIconTasks.show();
-
-      var issueNumbers = this.issueNumbers.split(',');
-      var issueServicesFinished = 0;
-
-      angular.forEach(issueNumbers, function (issueNumber) {
-        issueNumber = issueNumber.trim();
-        _this2.jiraIssueService.getIssue(_this2.$scope.jiraUser, issueNumber).then(function (data) {
-          if (data.status == "success") {
-            _this2.$scope.tasks.push(data);
-          } else {
-            _this2.$log.warn('Cannot retrieve the issue data for id: ' + issueNumber);
-          }
-        }, function (error) {
-          _this2.$log.log(error);
-        }).finally(function () {
-          issueServicesFinished += 1;
-          if (issueServicesFinished == issueNumbers.length) {
-            loadingIconTasks.hide();
-          }
-        });
-      });
+      initializeColorPickers();
     }
   }]);
 
-  return TaskFinderCtrl;
+  return TaskFinder;
 }();
 
-exports.default = TaskFinderCtrl;
+exports.default = TaskFinder;
