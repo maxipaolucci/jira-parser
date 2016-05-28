@@ -333,7 +333,7 @@ var TaskFinderCtrl = function () {
     this.logedIn = false;
     this.issueNumbers = 'ATG-5971';
     this.taskColor = '1E90FF';
-    this.subtaskColor = '1E90FF';
+    this.subtaskColor = 'AC74FF';
 
     this.$scope.$watch('logedIn', function (newValue, oldValue) {
       _this.logedIn = eval(newValue);

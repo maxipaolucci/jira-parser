@@ -5,8 +5,10 @@
     <pdf-exporter loged-in="{{taskFinderCtrl.logedIn}}" tasks="{{tasks}}" task-color="{{taskFinderCtrl.taskColor}}" subtask-color="{{taskFinderCtrl.subtaskColor}}"></pdf-exporter>
 
     <div class="color-controls">
-        Task color: <input class="task-color jscolor" ng-model="taskFinderCtrl.taskColor">
-        Subtask color: <input class="subtask-color jscolor" ng-model="taskFinderCtrl.subtaskColor">
+        Task color: <input ng-disabled="!taskFinderCtrl.logedIn" class="task-color jscolor"
+                           ng-model="taskFinderCtrl.taskColor" style="background-color: #{{taskFinderCtrl.taskColor}}">
+        Subtask color: <input ng-disabled="!taskFinderCtrl.logedIn" class="subtask-color jscolor"
+                              ng-model="taskFinderCtrl.subtaskColor" style="background-color: #{{taskFinderCtrl.subtaskColor}}">
     </div>
 </div>
 
