@@ -1,4 +1,23 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var MainCtrl = function MainCtrl($scope) {
+  _classCallCheck(this, MainCtrl);
+
+  $scope.logedIn = false;
+  $scope.jiraUser = '';
+  $scope.tasks = [];
+};
+
+exports.default = MainCtrl;
+
+},{}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19,7 +38,7 @@ var LoadingIconCtrl = function LoadingIconCtrl($scope) {
 
 exports.default = LoadingIconCtrl;
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -111,7 +130,7 @@ var LoginCtrl = function () {
 
 exports.default = LoginCtrl;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -298,7 +317,7 @@ var PdfExporterCtrl = function () {
 
 exports.default = PdfExporterCtrl;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -395,7 +414,7 @@ var TaskFinderCtrl = function () {
 
 exports.default = TaskFinderCtrl;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 var _jiraIssueServices = require('./services/jiraIssueServices');
@@ -417,6 +436,10 @@ var _taskFinder2 = _interopRequireDefault(_taskFinder);
 var _pdfExporter = require('./directives/pdf-exporter/pdf-exporter.component');
 
 var _pdfExporter2 = _interopRequireDefault(_pdfExporter);
+
+var _mainController = require('./controllers/mainController');
+
+var _mainController2 = _interopRequireDefault(_mainController);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -470,8 +493,9 @@ angular.module('printjira').directive('taskFinder', function () {
     }
   };
 });
+angular.module('printjira').controller('mainController', _mainController2.default);
 
-},{"./directives/loading-icon/loading-icon.component":1,"./directives/login/login.component":2,"./directives/pdf-exporter/pdf-exporter.component":3,"./directives/task-finder/task-finder.component":4,"./services/jiraIssueServices":6}],6:[function(require,module,exports){
+},{"./controllers/mainController":1,"./directives/loading-icon/loading-icon.component":2,"./directives/login/login.component":3,"./directives/pdf-exporter/pdf-exporter.component":4,"./directives/task-finder/task-finder.component":5,"./services/jiraIssueServices":7}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -561,4 +585,4 @@ var JiraIssueService = function () {
 
 exports.default = JiraIssueService;
 
-},{}]},{},[5]);
+},{}]},{},[6]);

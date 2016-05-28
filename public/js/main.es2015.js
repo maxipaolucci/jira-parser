@@ -3,6 +3,7 @@ import LoadingIconCtrl from './directives/loading-icon/loading-icon.component';
 import LoginCtrl from './directives/login/login.component';
 import TaskFinderCtrl from './directives/task-finder/task-finder.component';
 import PdfExporterCtrl from './directives/pdf-exporter/pdf-exporter.component';
+import MainCtrl from './controllers/mainController';
 
 angular.module('printjira', []);
 angular.module('printjira').service('jiraIssueService', JiraIssueService);
@@ -54,3 +55,4 @@ angular.module('printjira').directive('taskFinder', () => {
     }
   };
 });
+angular.module('printjira').controller('mainController', MainCtrl);
