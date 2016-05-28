@@ -3,4 +3,5 @@
 .DS_Store
 public/**/*.css
 public/js/main.js
+app.js
 *.bak
