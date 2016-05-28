@@ -18,23 +18,67 @@ var MainCtrl = function MainCtrl($scope) {
 exports.default = MainCtrl;
 
 },{}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var LoadingIconCtrl = function LoadingIconCtrl($scope) {
-  _classCallCheck(this, LoadingIconCtrl);
+var LoadingIcon = function () {
+  function LoadingIcon() {
+    _classCallCheck(this, LoadingIcon);
 
-  this.$scope = $scope;
-};
+    this.restrict = 'E';
+    this.templateUrl = '/js/directives/loading-icon/loading-icon.html';
+    this.scope = {};
+  }
 
-exports.default = LoadingIconCtrl;
+  _createClass(LoadingIcon, [{
+    key: 'controller',
+    value: function controller($scope) {}
+  }]);
+
+  return LoadingIcon;
+}();
+
+exports.default = LoadingIcon;
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _loginController = require('./login.controller.es2015');
+
+var _loginController2 = _interopRequireDefault(_loginController);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Login = function Login() {
+  _classCallCheck(this, Login);
+
+  this.restrict = 'E';
+  this.templateUrl = '/js/directives/login/login.html';
+  this.controller = _loginController2.default;
+  this.controllerAs = 'loginCtrl';
+  this.scope = {
+    logedIn: '=',
+    jiraUser: '=',
+    tasks: '='
+  };
+};
+
+exports.default = Login;
+
+},{"./login.controller.es2015":4}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -115,7 +159,39 @@ var LoginCtrl = function () {
 
 exports.default = LoginCtrl;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _pdfExporterController = require('./pdf-exporter.controller.es2015');
+
+var _pdfExporterController2 = _interopRequireDefault(_pdfExporterController);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var PdfExporter = function PdfExporter() {
+  _classCallCheck(this, PdfExporter);
+
+  this.restrict = 'E';
+  this.templateUrl = '/js/directives/pdf-exporter/pdf-exporter.html';
+  this.controller = _pdfExporterController2.default;
+  this.controllerAs = 'pdfExporterCtrl';
+  this.scope = {
+    tasks: '@',
+    taskColor: '@',
+    subtaskColor: '@',
+    logedIn: '@'
+  };
+};
+
+exports.default = PdfExporter;
+
+},{"./pdf-exporter.controller.es2015":6}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -294,7 +370,7 @@ var PdfExporterCtrl = function () {
 
 exports.default = PdfExporterCtrl;
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -346,7 +422,7 @@ var TaskFinder = function () {
 
 exports.default = TaskFinder;
 
-},{"./task-finder.controller.es2015":6}],6:[function(require,module,exports){
+},{"./task-finder.controller.es2015":8}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -420,7 +496,7 @@ var TaskFinderCtrl = function () {
 
 exports.default = TaskFinderCtrl;
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 var _jiraIssueServices = require('./services/jiraIssueServices.es2015');
@@ -452,46 +528,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 angular.module('printjira', []);
 angular.module('printjira').service('jiraIssueService', _jiraIssueServices2.default);
 angular.module('printjira').directive('loadingIcon', function () {
-  return {
-    restrict: 'E',
-    scope: {},
-    templateUrl: '/js/directives/loading-icon/loading-icon.html',
-    controller: _loadingIconComponent2.default
-  };
+  return new _loadingIconComponent2.default();
 });
 angular.module('printjira').directive('pdfExporter', function () {
-  return {
-    restrict: 'E',
-    scope: {
-      tasks: '@',
-      taskColor: '@',
-      subtaskColor: '@',
-      logedIn: '@'
-    },
-    templateUrl: '/js/directives/pdf-exporter/pdf-exporter.html',
-    controller: _pdfExporterComponent2.default,
-    controllerAs: 'pdfExporterCtrl'
-  };
+  return new _pdfExporterComponent2.default();
 });
 angular.module('printjira').directive('login', function () {
-  return {
-    restrict: 'E',
-    templateUrl: '/js/directives/login/login.html',
-    controller: _loginComponent2.default,
-    controllerAs: 'loginCtrl',
-    scope: {
-      logedIn: '=',
-      jiraUser: '=',
-      tasks: '='
-    }
-  };
+  return new _loginComponent2.default();
 });
 angular.module('printjira').directive('taskFinder', function () {
   return new _taskFinderComponent2.default();
 });
 angular.module('printjira').controller('mainController', _mainController2.default);
 
-},{"./controllers/mainController":1,"./directives/loading-icon/loading-icon.component.es2015":2,"./directives/login/login.component.es2015":3,"./directives/pdf-exporter/pdf-exporter.component.es2015":4,"./directives/task-finder/task-finder.component.es2015":5,"./services/jiraIssueServices.es2015":8}],8:[function(require,module,exports){
+},{"./controllers/mainController":1,"./directives/loading-icon/loading-icon.component.es2015":2,"./directives/login/login.component.es2015":3,"./directives/pdf-exporter/pdf-exporter.component.es2015":5,"./directives/task-finder/task-finder.component.es2015":7,"./services/jiraIssueServices.es2015":10}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -569,4 +619,4 @@ var JiraIssueService = function () {
 
 exports.default = JiraIssueService;
 
-},{}]},{},[7]);
+},{}]},{},[9]);

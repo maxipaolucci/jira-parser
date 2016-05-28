@@ -65,7 +65,7 @@ gulp.task('es2015ToCommonJS', (callback) => {
  */
 gulp.task('es2015ToCommonJSTranslation', () => {
   //this one if for the server (it doesn't group dependencies)
-  gulp.src(SERVER_JS_RES)
+  return gulp.src(SERVER_JS_RES)
     .pipe(rename(function(path) {
       //path.dirname += "/dist";
       path.basename = path.basename.split('.es2015')[0]; //removes babel from the basename (e.g.: app.babel => app)
@@ -74,14 +74,14 @@ gulp.task('es2015ToCommonJSTranslation', () => {
     .pipe(babel())
     .pipe(gulp.dest('./'));
 
-  return gulp.src(CLIENT_JS_RES)
-    .pipe(rename(function(path) {
-      //path.dirname += "/dist";
-      path.basename = path.basename.split('.es2015')[0]; //removes babel from the basename (e.g.: app.babel => app)
-      path.extname = ".js"
-    }))
-    .pipe(babel())
-    .pipe(gulp.dest(PUBLIC_PATH));
+  // return gulp.src(CLIENT_JS_RES)
+  //   .pipe(rename(function(path) {
+  //     //path.dirname += "/dist";
+  //     path.basename = path.basename.split('.es2015')[0]; //removes babel from the basename (e.g.: app.babel => app)
+  //     path.extname = ".js"
+  //   }))
+  //   .pipe(babel())
+  //   .pipe(gulp.dest(PUBLIC_PATH));
 });
 
 /**
