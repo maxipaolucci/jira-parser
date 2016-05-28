@@ -6,6 +6,7 @@
         <button type="button" ng-click="loginCtrl.login()">Login</button>
         <loading-icon class="loading-icon--login"></loading-icon>
     </div>
+
     <div ng-show="logedIn">
         <span class="logedIn-name">Welcome {{jiraUser}}!</span>
         <button type="button" ng-click="loginCtrl.logout()">Logout</button>

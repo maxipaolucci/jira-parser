@@ -6,41 +6,44 @@ export default class PdfExporterCtrl {
 
     this.$scope.$watch('tasks', (newValue, oldValue) => {
       this.pdfDocDef = null;
-      this.tasksArray = [];
       this.tasksArray = JSON.parse(newValue);
     });
-    
-    /**
-     * Handles openPdf btn
-     */
-    this.$scope.openPdf = () => {
-      if (!this.pdfDocDef) {
-        this._generatesPdfDefinition();
-      }
-      pdfMake.createPdf(this.pdfDocDef).open();
-    };
 
-    /**
-     * Handles printPdf btn
-     */
-    this.$scope.printPdf = () => {
-      if (!this.pdfDocDef) {
-        this._generatesPdfDefinition();
-      }
-      pdfMake.createPdf(this.pdfDocDef).print();
-    };
-
-    /**
-     * Handles savePdf btn
-     */
-    this.$scope.downloadPdf = () => {
-      if (!this.pdfDocDef) {
-        this._generatesPdfDefinition();
-      }
-      pdfMake.createPdf(this.pdfDocDef).download('tasks.pdf');
-    };
-
+    this.$scope.$watchGroup(['taskColor', 'subtaskColor'], (newValue, oldValue) => {
+      //whenever tasks colors changes then regenerate the doc def with new colors
+      this.pdfDocDef = null;
+    });
   }
+
+  /**
+   * Handles openPdf btn
+   */
+  openPdf() {
+    if (!this.pdfDocDef) {
+      this._generatesPdfDefinition();
+    }
+    pdfMake.createPdf(this.pdfDocDef).open();
+  };
+
+  /**
+   * Handles printPdf btn
+   */
+  printPdf() {
+    if (!this.pdfDocDef) {
+      this._generatesPdfDefinition();
+    }
+    pdfMake.createPdf(this.pdfDocDef).print();
+  };
+
+  /**
+   * Handles savePdf btn
+   */
+  downloadPdf() {
+    if (!this.pdfDocDef) {
+      this._generatesPdfDefinition();
+    }
+    pdfMake.createPdf(this.pdfDocDef).download('tasks.pdf');
+  };
 
   /**
    * Generates a pdf definition for the tasks in the vm.tasksArrays array and cache the result in vm.pdfDocDef

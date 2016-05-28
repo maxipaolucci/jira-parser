@@ -20,48 +20,61 @@ var PdfExporterCtrl = function () {
 
     this.$scope.$watch('tasks', function (newValue, oldValue) {
       _this.pdfDocDef = null;
-      _this.tasksArray = [];
       _this.tasksArray = JSON.parse(newValue);
     });
 
-    /**
-     * Handles openPdf btn
-     */
-    this.$scope.openPdf = function () {
-      if (!_this.pdfDocDef) {
-        _this._generatesPdfDefinition();
-      }
-      pdfMake.createPdf(_this.pdfDocDef).open();
-    };
-
-    /**
-     * Handles printPdf btn
-     */
-    this.$scope.printPdf = function () {
-      if (!_this.pdfDocDef) {
-        _this._generatesPdfDefinition();
-      }
-      pdfMake.createPdf(_this.pdfDocDef).print();
-    };
-
-    /**
-     * Handles savePdf btn
-     */
-    this.$scope.downloadPdf = function () {
-      if (!_this.pdfDocDef) {
-        _this._generatesPdfDefinition();
-      }
-      pdfMake.createPdf(_this.pdfDocDef).download('tasks.pdf');
-    };
+    this.$scope.$watchGroup(['taskColor', 'subtaskColor'], function (newValue, oldValue) {
+      //whenever tasks colors changes then regenerate the doc def with new colors
+      _this.pdfDocDef = null;
+    });
   }
 
   /**
-   * Generates a pdf definition for the tasks in the vm.tasksArrays array and cache the result in vm.pdfDocDef
+   * Handles openPdf btn
    */
 
 
   _createClass(PdfExporterCtrl, [{
+    key: 'openPdf',
+    value: function openPdf() {
+      if (!this.pdfDocDef) {
+        this._generatesPdfDefinition();
+      }
+      pdfMake.createPdf(this.pdfDocDef).open();
+    }
+  }, {
+    key: 'printPdf',
+
+
+    /**
+     * Handles printPdf btn
+     */
+    value: function printPdf() {
+      if (!this.pdfDocDef) {
+        this._generatesPdfDefinition();
+      }
+      pdfMake.createPdf(this.pdfDocDef).print();
+    }
+  }, {
+    key: 'downloadPdf',
+
+
+    /**
+     * Handles savePdf btn
+     */
+    value: function downloadPdf() {
+      if (!this.pdfDocDef) {
+        this._generatesPdfDefinition();
+      }
+      pdfMake.createPdf(this.pdfDocDef).download('tasks.pdf');
+    }
+  }, {
     key: '_generatesPdfDefinition',
+
+
+    /**
+     * Generates a pdf definition for the tasks in the vm.tasksArrays array and cache the result in vm.pdfDocDef
+     */
     value: function _generatesPdfDefinition() {
       var _this2 = this;
 

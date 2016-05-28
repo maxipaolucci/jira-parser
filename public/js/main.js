@@ -49,7 +49,7 @@ var LoginCtrl = function () {
     this.jiraIssueService = jiraIssueService;
     this.$log = $log;
     this.$scope = $scope;
-    this.jiraPass = '';
+    this.jiraPass = ''; //passworrd is a local variable of this ocmponent, the user come in the scope
   }
 
   /**
@@ -146,47 +146,57 @@ var PdfExporterCtrl = function () {
 
     this.$scope.$watch('tasks', function (newValue, oldValue) {
       _this.pdfDocDef = null;
-      _this.tasksArray = [];
       _this.tasksArray = JSON.parse(newValue);
     });
 
-    /**
-     * Handles openPdf btn
-     */
-    this.$scope.openPdf = function () {
-      if (!_this.pdfDocDef) {
-        _this._generatesPdfDefinition();
+    this.$scope.$watchGroup(['taskColor', 'subtaskColor'], function (newValue, oldValue) {
+      //whenever tasks colors changes then regenerate the doc def with new colors
+      _this.pdfDocDef = null;
+    });
+  }
+
+  /**
+   * Handles openPdf btn
+   */
+
+  _createClass(PdfExporterCtrl, [{
+    key: 'openPdf',
+    value: function openPdf() {
+      if (!this.pdfDocDef) {
+        this._generatesPdfDefinition();
       }
-      pdfMake.createPdf(_this.pdfDocDef).open();
-    };
+      pdfMake.createPdf(this.pdfDocDef).open();
+    }
+  }, {
+    key: 'printPdf',
 
     /**
      * Handles printPdf btn
      */
-    this.$scope.printPdf = function () {
-      if (!_this.pdfDocDef) {
-        _this._generatesPdfDefinition();
+    value: function printPdf() {
+      if (!this.pdfDocDef) {
+        this._generatesPdfDefinition();
       }
-      pdfMake.createPdf(_this.pdfDocDef).print();
-    };
+      pdfMake.createPdf(this.pdfDocDef).print();
+    }
+  }, {
+    key: 'downloadPdf',
 
     /**
      * Handles savePdf btn
      */
-    this.$scope.downloadPdf = function () {
-      if (!_this.pdfDocDef) {
-        _this._generatesPdfDefinition();
+    value: function downloadPdf() {
+      if (!this.pdfDocDef) {
+        this._generatesPdfDefinition();
       }
-      pdfMake.createPdf(_this.pdfDocDef).download('tasks.pdf');
-    };
-  }
-
-  /**
-   * Generates a pdf definition for the tasks in the vm.tasksArrays array and cache the result in vm.pdfDocDef
-   */
-
-  _createClass(PdfExporterCtrl, [{
+      pdfMake.createPdf(this.pdfDocDef).download('tasks.pdf');
+    }
+  }, {
     key: '_generatesPdfDefinition',
+
+    /**
+     * Generates a pdf definition for the tasks in the vm.tasksArrays array and cache the result in vm.pdfDocDef
+     */
     value: function _generatesPdfDefinition() {
       var _this2 = this;
 
@@ -324,7 +334,8 @@ angular.module('printjira').directive('pdfExporter', function () {
       logedIn: '@'
     },
     templateUrl: '/js/directives/pdf-exporter/pdf-exporter.html',
-    controller: _pdfExporter2.default
+    controller: _pdfExporter2.default,
+    controllerAs: 'pdfExporterCtrl'
   };
 });
 angular.module('printjira').directive('login', function () {
@@ -332,7 +343,12 @@ angular.module('printjira').directive('login', function () {
     restrict: 'E',
     templateUrl: '/js/directives/login/login.html',
     controller: _login2.default,
-    controllerAs: 'loginCtrl'
+    controllerAs: 'loginCtrl',
+    scope: {
+      logedIn: '=',
+      jiraUser: '=',
+      tasks: '='
+    }
   };
 });
 

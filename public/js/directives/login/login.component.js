@@ -15,7 +15,7 @@ var LoginCtrl = function () {
     this.jiraIssueService = jiraIssueService;
     this.$log = $log;
     this.$scope = $scope;
-    this.jiraPass = '';
+    this.jiraPass = ''; //passworrd is a local variable of this ocmponent, the user come in the scope
   }
 
   /**

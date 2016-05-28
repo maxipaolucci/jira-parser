@@ -23,7 +23,8 @@ angular.module('printjira').directive('pdfExporter', () => {
       logedIn : '@'
     },
     templateUrl : '/js/directives/pdf-exporter/pdf-exporter.html',
-    controller : PdfExporterCtrl
+    controller : PdfExporterCtrl,
+    controllerAs : 'pdfExporterCtrl'
   };
 });
 angular.module('printjira').directive('login', () => {
@@ -31,6 +32,11 @@ angular.module('printjira').directive('login', () => {
     restrict : 'E',
     templateUrl : '/js/directives/login/login.html',
     controller : LoginCtrl,
-    controllerAs : 'loginCtrl'
+    controllerAs : 'loginCtrl',
+    scope : {
+      logedIn : '=',
+      jiraUser : '=',
+      tasks : '='
+    }
   };
 });

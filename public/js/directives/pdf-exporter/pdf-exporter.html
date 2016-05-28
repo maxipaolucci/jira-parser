@@ -1,3 +1,3 @@
-<button type="button" ng-click="openPdf()" ng-disabled="!logedIn || !tasks.length">Open PDF</button>
-<button type="button" ng-click="printPdf()" ng-disabled="!logedIn || !tasks.length">Print PDF</button>
-<button type="button" ng-click="downloadPdf()" ng-disabled="!logedIn || !tasks.length">Save PDF</button>
+<button type="button" ng-click="pdfExporterCtrl.openPdf()" ng-disabled="!(logedIn && pdfExporterCtrl.tasksArray.length)">Open PDF</button>
+<button type="button" ng-click="pdfExporterCtrl.printPdf()" ng-disabled="!(logedIn && pdfExporterCtrl.tasksArray.length)">Print PDF</button>
+<button type="button" ng-click="pdfExporterCtrl.downloadPdf()" ng-disabled="!(logedIn && pdfExporterCtrl.tasksArray.length)">Save PDF</button>
