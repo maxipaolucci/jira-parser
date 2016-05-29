@@ -12,6 +12,7 @@ export default class LoginCtrl {
    * backend
    */
   login() {
+    //TODO send grab this icon in the link fn and attach it to the scope
     let loadingIconLogin = angular.element('body').find('.loading-icon--login');
     loadingIconLogin.show();
 
@@ -34,6 +35,7 @@ export default class LoginCtrl {
    * Call the logout service in the server and disconnect the current session with jira server
    */
   logout() {
+    //TODO add the loading icon here too
     this.jiraIssueService.logout(this.$scope.jiraUser).then((data) => {
       if (data.status == 'success') {
         //do something

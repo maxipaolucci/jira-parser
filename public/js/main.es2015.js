@@ -12,3 +12,7 @@ angular.module('printjira').directive('pdfExporter', () => new PdfExporter);
 angular.module('printjira').directive('login', () => new Login);
 angular.module('printjira').directive('taskFinder', () => new TaskFinder);
 angular.module('printjira').controller('mainController', MainCtrl);
+
+//TODO add boostrap
+//TODO use default parameters in required functions
+//TODO update loading icon to a more fancy one

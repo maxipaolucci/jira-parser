@@ -22,6 +22,7 @@ export default class TaskFinderCtrl {
    */
   findJiraIssues() {
     this.$scope.tasks = [];
+    //TODO send grab this icon in the link fn and attach it to the scope
     let loadingIconTasks = angular.element('body').find('.loading-icon--task-finder');
 
     loadingIconTasks.show();

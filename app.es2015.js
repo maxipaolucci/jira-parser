@@ -11,6 +11,7 @@ let jiraConnectionsMap = {}; //this map is going to host all the connections req
 let useMocks = true; //set this to true to use mocked data instead of real data from jira REST services
 let jira = null; //this will contain the jira object capable to access jira services (jiraConfigObj) is used to create this one
 
+//TODO use default parameters in required functions
 
 //METHODS
 /**
