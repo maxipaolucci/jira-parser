@@ -40,6 +40,14 @@ task-finder {
         font-weight: bold;
         font-size: 14px;
       }
+
+      .footer {
+        border-top: solid 1px #000000;
+        text-align: right;
+        background-color: #efefef;
+        padding: 5px;
+        font-weight: bold;
+      }
     }
 
     .jira-task--subtask {

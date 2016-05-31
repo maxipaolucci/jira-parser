@@ -16,3 +16,5 @@ angular.module('printjira').controller('mainController', MainCtrl);
 //TODO add boostrap
 //TODO use default parameters in required functions
 //TODO update loading icon to a more fancy one
+//TODO add fields where we are extracting data from json as constants in the code to make it easy to change if required
+//TODO add status labels

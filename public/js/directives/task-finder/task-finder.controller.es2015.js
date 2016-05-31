@@ -5,7 +5,7 @@ export default class TaskFinderCtrl {
     this.$log = $log;
     this.$scope = $scope;
     this.logedIn = false;
-    this.issueNumbers = 'ATG-5971';
+    this.issueNumbers = '';
     this.taskColor = '1E90FF';
     this.subtaskColor = 'AC74FF';
 

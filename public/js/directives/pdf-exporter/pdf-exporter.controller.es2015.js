@@ -1,4 +1,5 @@
 export default class PdfExporterCtrl {
+
   constructor($scope) {
     this.pdfDocDef = null;
     this.tasksArray = [];
@@ -54,10 +55,13 @@ export default class PdfExporterCtrl {
    * Generates a pdf definition for the tasks in the vm.tasksArrays array and cache the result in vm.pdfDocDef
    */
   _generatesPdfDefinition() {
+    const TASK_TABLE_WIDTH = 320;
+    const SUBTASK_TABLE_WIDTH = 200;
+
     let pdfTasksDocDef = [];
     angular.forEach(this.tasksArray, (task) => {
       //Create PDF definition for Task
-      pdfTasksDocDef.push(this._generateTaskDocDef(task, null, 'task', 280));
+      pdfTasksDocDef.push(this._generateTaskDocDef(task, null, 'task', TASK_TABLE_WIDTH));
 
       //Create PDF definition foreach subtask of the previous task
       if (task.fields.subtasks) {
@@ -66,11 +70,11 @@ export default class PdfExporterCtrl {
           let subtask2 = i + 1 < task.fields.subtasks.length ? task.fields.subtasks[i + 1] : null;
 
           let pdfSubTaskDocDef = {
-            columns: [this._generateTaskDocDef(subtask, task, 'subtask', 175)]
+            columns: [this._generateTaskDocDef(subtask, task, 'subtask', SUBTASK_TABLE_WIDTH)]
           };
 
           if (subtask2) {
-            pdfSubTaskDocDef.columns.push(this._generateTaskDocDef(subtask2, task, 'subtask', 175));
+            pdfSubTaskDocDef.columns.push(this._generateTaskDocDef(subtask2, task, 'subtask', SUBTASK_TABLE_WIDTH));
           }
 
           pdfTasksDocDef.push(pdfSubTaskDocDef);
@@ -96,22 +100,28 @@ export default class PdfExporterCtrl {
         taskTableHeader: {
           alignment: 'center',
           bold: true,
-          fontSize: 16,
+          fontSize: 22,
           color: '#fff',
           fillColor: '#' + this.$scope.taskColor
         },
         taskTableSummary: {
-          fontSize: 14
+          fontSize: 20
+        },
+        taskTableFooter: {
+          fontSize: 14,
+          fillColor: '#efefef',
+          alignment: 'right'
         },
         subtaskTableHeader: {
           alignment: 'center',
           bold: true,
-          fontSize: 14,
+          fontSize: 18,
           color: '#fff',
           fillColor: '#' + this.$scope.subtaskColor
         },
         subtaskTableSummary: {
-          fontSize: 12
+          fontSize: 16,
+          bold: true
         }
       }
     };
@@ -128,15 +138,17 @@ export default class PdfExporterCtrl {
   _generateTaskDocDef(task, parentTask, type, tableWidth) {
     let key = parentTask ? parentTask.key : task.key;
     let summary = parentTask ? `${task.key}: ${task.fields.summary}` : task.fields.summary;
+    let body = [ [{text: key, style: `${type}TableHeader` }], [{text: summary, style: `${type}TableSummary` }] ];
+    if (!parentTask && task.fields.issuetype.name == 'Story' && task.fields.customfield_10004) {
+      body.push([{text: `${task.fields.customfield_10004} points`, style: `${type}TableFooter` }]);
+    }
+
 
     return {
       style: 'taskTable',
       table: {
         widths: [tableWidth],
-        body: [
-          [{text: key, style: `${type}TableHeader` }],
-          [{text: summary, style: `${type}TableSummary` }]
-        ]
+        body: body
       }
     };
   }

@@ -20,6 +20,7 @@
         <div class="jira-task">
             <div class="id" style="background-color: #{{taskFinderCtrl.taskColor}};">{{task.key}}</div>
             <div class="summary">{{task.fields.summary}}</div>
+            <div class="footer" ng-if="task.fields.issuetype.name == 'Story' && task.fields.customfield_10004">{{task.fields.customfield_10004}} points</div>
         </div>
 
         <div class="jira-task jira-task--subtask" ng-repeat="subtask in task.fields.subtasks">

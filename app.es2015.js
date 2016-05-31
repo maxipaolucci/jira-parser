@@ -8,7 +8,7 @@ let app = express();
 let urlencode = bodyParser.urlencoded({extended: false});
 
 let jiraConnectionsMap = {}; //this map is going to host all the connections request made by every user that login in the server
-let useMocks = true; //set this to true to use mocked data instead of real data from jira REST services
+let useMocks = false; //set this to true to use mocked data instead of real data from jira REST services
 let jira = null; //this will contain the jira object capable to access jira services (jiraConfigObj) is used to create this one
 
 //TODO use default parameters in required functions
