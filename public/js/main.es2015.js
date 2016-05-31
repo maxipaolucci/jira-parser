@@ -18,3 +18,4 @@ angular.module('printjira').controller('mainController', MainCtrl);
 //TODO update loading icon to a more fancy one
 //TODO add fields where we are extracting data from json as constants in the code to make it easy to change if required
 //TODO add status labels
+//TODO implement a method to add custom spacing between rows to avoid cutting tasks in pdf
