@@ -10,6 +10,8 @@ export default class PdfExporter {
       tasks : '@',
       taskColor : '@',
       subtaskColor : '@',
+      bugColor : '@',
+      epicColor : '@',
       logedIn : '@'
     };
   }

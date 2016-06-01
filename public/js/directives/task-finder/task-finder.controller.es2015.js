@@ -8,13 +8,40 @@ export default class TaskFinderCtrl {
     this.issueNumbers = '';
     this.taskColor = '1E90FF';
     this.subtaskColor = 'AC74FF';
+    this.epicColor = 'FFB51F';
+    this.bugColor = 'FF7E6B';
 
     this.$scope.$watch('logedIn', (newValue, oldValue) => {
       this.logedIn = eval(newValue);
     });
   }
 
-  
+  getColor(task) {
+    let cardType = task.fields.issuetype.name;
+    let color = this.taskColor;
+    let type = 'Story';
+
+    switch (cardType.toLowerCase()) {
+      case 'story':
+        color = this.taskColor;
+        type = 'Story';
+        break;
+      case 'sub-task':
+        color = this.subtaskColor;
+        type = 'Sub-task';
+        break;
+      case 'epic':
+        type = 'Epic';
+        color = this.epicColor;
+        break;
+      case 'bug':
+        type = 'Bug';
+        color = this.bugColor;
+        break;
+    }
+
+    return { color, type };
+  };
 
   /**
    * Calls the service that retrieve jira issues from JIRA and populates the array of tickets to

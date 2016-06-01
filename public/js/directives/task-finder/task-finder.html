@@ -2,13 +2,18 @@
 <div class="ticket-form-container non-printable" >
     Ticket numbers (comma separated): <input ng-disabled="!taskFinderCtrl.logedIn" type="text" ng-model="taskFinderCtrl.issueNumbers" size="100" />
     <button type="button" ng-click="taskFinderCtrl.findJiraIssues()" ng-disabled="!taskFinderCtrl.logedIn">Find</button>
-    <pdf-exporter loged-in="{{taskFinderCtrl.logedIn}}" tasks="{{tasks}}" task-color="{{taskFinderCtrl.taskColor}}" subtask-color="{{taskFinderCtrl.subtaskColor}}"></pdf-exporter>
+    <pdf-exporter loged-in="{{taskFinderCtrl.logedIn}}" tasks="{{tasks}}" task-color="{{taskFinderCtrl.taskColor}}" subtask-color="{{taskFinderCtrl.subtaskColor}}"
+                  epic-color="{{taskFinderCtrl.epicColor}}" bug-color="{{taskFinderCtrl.bugColor}}"></pdf-exporter>
 
     <div class="color-controls">
-        Task color: <input ng-disabled="!taskFinderCtrl.logedIn" class="task-color jscolor"
+        Story color: <input ng-disabled="!taskFinderCtrl.logedIn" class="task-color jscolor"
                            ng-model="taskFinderCtrl.taskColor" style="background-color: #{{taskFinderCtrl.taskColor}}">
         Subtask color: <input ng-disabled="!taskFinderCtrl.logedIn" class="subtask-color jscolor"
                               ng-model="taskFinderCtrl.subtaskColor" style="background-color: #{{taskFinderCtrl.subtaskColor}}">
+        Epic color: <input ng-disabled="!taskFinderCtrl.logedIn" class="epic-color jscolor"
+                           ng-model="taskFinderCtrl.epicColor" style="background-color: #{{taskFinderCtrl.epicColor}}">
+        Bug color: <input ng-disabled="!taskFinderCtrl.logedIn" class="bug-color jscolor"
+                              ng-model="taskFinderCtrl.bugColor" style="background-color: #{{taskFinderCtrl.bugColor}}">
     </div>
 </div>
 
@@ -18,13 +23,13 @@
     <div class="jira-task-container" ng-repeat="task in tasks">
         <h3>{{task.key}}</h3>
         <div class="jira-task">
-            <div class="id" style="background-color: #{{taskFinderCtrl.taskColor}};">{{task.key}}</div>
+            <div class="id" style="background-color: #{{taskFinderCtrl.getColor(task).color}};">{{taskFinderCtrl.getColor(task).type + ': ' + task.key}}</div>
             <div class="summary">{{task.fields.summary}}</div>
             <div class="footer" ng-if="task.fields.issuetype.name == 'Story' && task.fields.customfield_10004">{{task.fields.customfield_10004}} points</div>
         </div>
 
         <div class="jira-task jira-task--subtask" ng-repeat="subtask in task.fields.subtasks">
-            <div class="id" style="background-color: #{{taskFinderCtrl.subtaskColor}};">{{task.key}}</div>
+            <div class="id" style="background-color: #{{taskFinderCtrl.subtaskColor}};">{{taskFinderCtrl.getColor(subtask).type + ': ' + task.key}}</div>
             <div class="summary">{{subtask.key}}: {{subtask.fields.summary}}</div>
         </div>
         <div class="clearfix"></div>

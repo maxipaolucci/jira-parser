@@ -17,9 +17,13 @@ export default class TaskFinder {
     let initializeColorPickers = () => {
       let taskColorPicker = element.find('.task-color').get(0);
       let subtaskColorPicker = element.find('.subtask-color').get(0);
+      let epicColorPicker = element.find('.epic-color').get(0);
+      let bugColorPicker = element.find('.bug-color').get(0);
 
       new jscolor(taskColorPicker);
       new jscolor(subtaskColorPicker);
+      new jscolor(epicColorPicker);
+      new jscolor(bugColorPicker);
     };
 
     initializeColorPickers();

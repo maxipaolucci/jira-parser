@@ -15,7 +15,7 @@ export default class PdfExporterCtrl {
       this.tasksArray = JSON.parse(newValue);
     });
 
-    this.$scope.$watchGroup(['taskColor', 'subtaskColor'], (newValue, oldValue) => {
+    this.$scope.$watchGroup(['taskColor', 'subtaskColor', 'bugColor', 'epicColor'], (newValue, oldValue) => {
       //whenever tasks colors changes then regenerate the doc def with new colors
       this.pdfDocDef = null;
     });
@@ -55,13 +55,10 @@ export default class PdfExporterCtrl {
    * Generates a pdf definition for the tasks in the vm.tasksArrays array and cache the result in vm.pdfDocDef
    */
   _generatesPdfDefinition() {
-    const TASK_TABLE_WIDTH = 320;
-    const SUBTASK_TABLE_WIDTH = 200;
-
     let pdfTasksDocDef = [];
     angular.forEach(this.tasksArray, (task) => {
       //Create PDF definition for Task
-      pdfTasksDocDef.push(this._generateTaskDocDef(task, null, 'task', TASK_TABLE_WIDTH));
+      pdfTasksDocDef.push(this._generateTaskDocDef(task, null));
 
       //Create PDF definition foreach subtask of the previous task
       if (task.fields.subtasks) {
@@ -70,11 +67,11 @@ export default class PdfExporterCtrl {
           let subtask2 = i + 1 < task.fields.subtasks.length ? task.fields.subtasks[i + 1] : null;
 
           let pdfSubTaskDocDef = {
-            columns: [this._generateTaskDocDef(subtask, task, 'subtask', SUBTASK_TABLE_WIDTH)]
+            columns: [this._generateTaskDocDef(subtask, task)]
           };
 
           if (subtask2) {
-            pdfSubTaskDocDef.columns.push(this._generateTaskDocDef(subtask2, task, 'subtask', SUBTASK_TABLE_WIDTH));
+            pdfSubTaskDocDef.columns.push(this._generateTaskDocDef(subtask2, task));
           }
 
           pdfTasksDocDef.push(pdfSubTaskDocDef);
@@ -97,20 +94,19 @@ export default class PdfExporterCtrl {
         taskTable: {
           margin: [0, 5, 0, 15]
         },
+        epicTableHeader: {
+          alignment: 'center',
+          bold: true,
+          fontSize: 22,
+          color: '#fff',
+          fillColor: '#' + this.$scope.epicColor
+        },
         taskTableHeader: {
           alignment: 'center',
           bold: true,
           fontSize: 22,
           color: '#fff',
           fillColor: '#' + this.$scope.taskColor
-        },
-        taskTableSummary: {
-          fontSize: 20
-        },
-        taskTableFooter: {
-          fontSize: 14,
-          fillColor: '#efefef',
-          alignment: 'right'
         },
         subtaskTableHeader: {
           alignment: 'center',
@@ -119,9 +115,32 @@ export default class PdfExporterCtrl {
           color: '#fff',
           fillColor: '#' + this.$scope.subtaskColor
         },
+        bugTableHeader: {
+          alignment: 'center',
+          bold: true,
+          fontSize: 18,
+          color: '#fff',
+          fillColor: '#' + this.$scope.bugColor
+        },
+        taskTableSummary: {
+          fontSize: 20
+        },
         subtaskTableSummary: {
           fontSize: 16,
           bold: true
+        },
+        epicTableSummary: {
+          fontSize: 20,
+          bold: true
+        },
+        bugTableSummary: {
+          fontSize: 16,
+          bold: true
+        },
+        taskTableFooter: {
+          fontSize: 14,
+          fillColor: '#efefef',
+          alignment: 'right'
         }
       }
     };
@@ -131,23 +150,47 @@ export default class PdfExporterCtrl {
    * Generates the doc definition to export tasks table to PDF
    * @param JSON task . The task to render
    * @param JSON parentTask . Null if this task has not got a parent, a json object(the parent task) if it is a subtask.
-   * @param String type . This could be 'task' or 'subtask' representing the type of task to render
-   * @param int tableWidth . The width of the table in px
    * @returns {{style: string, table: {widths: number[], body: *[]}}}
    */
-  _generateTaskDocDef(task, parentTask, type, tableWidth) {
+  _generateTaskDocDef(task, parentTask) {
+    const TASK_TABLE_WIDTH = 320;
+    const SUBTASK_TABLE_WIDTH = 200;
+    const CARD_TYPE = {
+      'Story' : {
+        tableWidth : TASK_TABLE_WIDTH,
+        stylePrefix: 'task',
+        title: 'Story'
+      },
+      'Epic' : {
+        tableWidth : TASK_TABLE_WIDTH,
+        stylePrefix: 'epic',
+        title: 'Epic'
+      },
+      'Sub-task' : {
+        tableWidth : SUBTASK_TABLE_WIDTH,
+        stylePrefix: 'subtask',
+        title: 'Sub-task'
+      },
+      'Bug' : {
+        tableWidth : SUBTASK_TABLE_WIDTH,
+        stylePrefix: 'bug',
+        title: 'Bug'
+      }
+    };
+
+    let cardType = CARD_TYPE[task.fields.issuetype.name];
     let key = parentTask ? parentTask.key : task.key;
     let summary = parentTask ? `${task.key}: ${task.fields.summary}` : task.fields.summary;
-    let body = [ [{text: key, style: `${type}TableHeader` }], [{text: summary, style: `${type}TableSummary` }] ];
-    if (!parentTask && task.fields.issuetype.name == 'Story' && task.fields.customfield_10004) {
-      body.push([{text: `${task.fields.customfield_10004} points`, style: `${type}TableFooter` }]);
-    }
+    let body = [ [{text: `${cardType.title}: ${key}`, style: `${cardType.stylePrefix}TableHeader` }], [{text: summary, style: `${cardType.stylePrefix}TableSummary` }] ];
 
+    if (!parentTask && cardType.stylePrefix == 'task' && task.fields.customfield_10004) {
+      body.push([{text: `${task.fields.customfield_10004} points`, style: `${cardType.stylePrefix}TableFooter` }]);
+    }
 
     return {
       style: 'taskTable',
       table: {
-        widths: [tableWidth],
+        widths: [cardType.tableWidth],
         body: body
       }
     };

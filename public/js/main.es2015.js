@@ -19,4 +19,4 @@ angular.module('printjira').controller('mainController', MainCtrl);
 //TODO add fields where we are extracting data from json as constants in the code to make it easy to change if required
 //TODO add status labels
 //TODO implement a method to add custom spacing between rows to avoid cutting tasks in pdf
-//TODO add support for epics and bugs adding color fields for it. And trying to show the tasks in the epic if it is posible
+//TODO try to show the tasks in the epic if it is posible
