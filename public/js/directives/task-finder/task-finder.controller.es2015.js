@@ -16,7 +16,7 @@ export default class TaskFinderCtrl {
     });
   }
 
-  getColor(task) {
+  getCardConfig(task) {
     let cardType = task.fields.issuetype.name;
     let color = this.taskColor;
     let type = 'Story';
