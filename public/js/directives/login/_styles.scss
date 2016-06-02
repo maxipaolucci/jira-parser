@@ -1,10 +1,16 @@
-login {
+login .login-container {
+  float: right;
 
   loading-icon.loading-icon--login {
     display: none;
   }
 
-  .login-container {
-    float: right;
+  .login-form.invalid {
+
+    .error-msg {
+      display: block;
+    }
   }
+
+
 }

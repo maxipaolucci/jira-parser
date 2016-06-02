@@ -1,10 +1,11 @@
 <!-- login form container -->
 <div class="login-container non-printable">
-    <div ng-hide="logedIn" class="">
+    <div ng-hide="logedIn" class="login-form" ng-class="loginCtrl.invalid ? 'invalid' : ''">
         Jira user: <input type="text" ng-model="jiraUser" />
         Jira password: <input type="password" ng-model="loginCtrl.jiraPass" />
         <button type="button" ng-click="loginCtrl.login()">Login</button>
         <loading-icon class="loading-icon--login"></loading-icon>
+        <div class="error msg error-msg">Invalid username and/or password</div>
     </div>
 
     <div ng-show="logedIn">

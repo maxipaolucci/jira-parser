@@ -4,6 +4,7 @@ export default class LoginCtrl {
     this.jiraIssueService = jiraIssueService;
     this.$log = $log;
     this.$scope = $scope;
+    this.invalid = false;
     this.jiraPass = ''; //passworrd is a local variable of this ocmponent, the user come in the scope
   }
 
@@ -19,13 +20,20 @@ export default class LoginCtrl {
     this.jiraIssueService.login(this.$scope.jiraUser, this.jiraPass).then((data) => {
       if (data.status == 'success' && data.name == this.$scope.jiraUser) {
         this.$scope.logedIn = true;
+        this.invalid = false;
       } else {
         this.$log.warn('Cannot login: the service return with an error or different username than the requested');
         this.$scope.logedIn = false;
+        this.invalid = true;
+        this.jiraPass = '';
+        this.$scope.jiraUser = '';
       }
     }, (error) => {
       this.$log.error(error);
       this.$scope.logedIn = false;
+      this.invalid = true;
+      this.jiraPass = '';
+      this.$scope.jiraUser = '';
     }).finally(() => {
       loadingIconLogin.hide();
     });

@@ -11,6 +11,11 @@ body {
   color: #243781;
 }
 
+.error-msg {
+  color: #ff0000;
+  display: none;
+}
+
 
 @media print {
   .non-printable {
