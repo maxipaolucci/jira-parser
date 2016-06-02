@@ -7,13 +7,10 @@ FOLLOW THESE STEPS TO INSTALL
 
 3) run >npm install      (in the root folder of this project to install all the required packages)
 
-4) Go to file ./node_modules/jira/lib/jira.js  edit private method this.makeUri.
-    Modify the beginning of the basepath ('rest/api/') to 'jira/rest/api'
-
-5.1) If you already have gulp installed then goto step 5.2 If gulp has not been installed before in this computer
+4.1) If you already have gulp installed then goto step (4.2) If gulp has not been installed before in this computer
     (you can check it doing >gulp --version) run >npm install gulp -g     (to install it globally and allow gulp commands in the console).
 
-5.2) run >gulp build     (to translate es2015 to common js and compile sass)
+4.2) run >gulp build     (to translate es2015 to common js and compile sass)
 
 6) run >node app         (to start the local server)
 

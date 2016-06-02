@@ -1,5 +1,5 @@
 import express from 'express';
-import _JiraApi from 'jira';
+import _JiraApi from './lib/jira';
 import fs from 'fs';
 import bodyParser from 'body-parser';
 
