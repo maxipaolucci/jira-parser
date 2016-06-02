@@ -12,9 +12,9 @@ FOLLOW THESE STEPS TO INSTALL
 
 4.2) run >gulp build     (to translate es2015 to common js and compile sass)
 
-6) run >node app         (to start the local server)
+5) run >node app         (to start the local server)
 
-7) navigate to this url to access the app: http://localhost:3000  and login using a valid jira user
+6) navigate to this url to access the app: http://localhost:3000  and login using a valid jira user
 
 
 
