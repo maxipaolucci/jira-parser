@@ -15,6 +15,13 @@ task-finder {
       }
 
     }
+
+    &.invalid {
+
+      .error-msg {
+        display: block;
+      }
+    }
   }
 
   .jira-tiles {

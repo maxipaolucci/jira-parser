@@ -5,6 +5,8 @@ export default class TaskFinderCtrl {
     this.$log = $log;
     this.$scope = $scope;
     this.logedIn = false;
+    this.invalid = false;
+    this.invalidTicketIDs = [];
     this.issueNumbers = '';
     this.taskColor = '1E90FF';
     this.subtaskColor = 'AC74FF';
@@ -48,32 +50,45 @@ export default class TaskFinderCtrl {
    * be print
    */
   findJiraIssues() {
+    this.invalid = false;
+    this.invalidTicketIDs = [];
     this.$scope.tasks = [];
     //TODO send grab this icon in the link fn and attach it to the scope
     let loadingIconTasks = angular.element('body').find('.loading-icon--task-finder');
 
     loadingIconTasks.show();
 
-    let issueNumbers = this.issueNumbers.split(',');
+    let issueNumbers = this.issueNumbers.trim() ? this.issueNumbers.trim().split(',') : [];
     let issueServicesFinished = 0;
 
-    angular.forEach(issueNumbers, (issueNumber) => {
-      issueNumber = issueNumber.trim();
-      this.jiraIssueService.getIssue(this.$scope.jiraUser, issueNumber).then((data) => {
-        if (data.status == "success") {
-          this.$scope.tasks.push(data);
-        } else {
-          this.$log.warn(`Cannot retrieve the issue data for id: ${issueNumber}`);
-        }
-      }, (error) => {
-        this.$log.log(error);
-      }).finally(() => {
-        issueServicesFinished += 1;
-        if (issueServicesFinished == issueNumbers.length) {
-          loadingIconTasks.hide();
-        }
+    if (issueNumbers.length) {
+      angular.forEach(issueNumbers, (issueNumber) => {
+        issueNumber = issueNumber.trim();
+        this.jiraIssueService.getIssue(this.$scope.jiraUser, issueNumber).then((data) => {
+          if (data.status == "success") {
+            this.$scope.tasks.push(data);
+          } else {
+            this.invalidTicketIDs.push(issueNumber);
+            this.$log.warn(`Cannot retrieve the issue data for id: ${issueNumber}`);
+          }
+        }, (error) => {
+          this.invalidTicketIDs.push(issueNumber);
+          this.$log.log(error);
+        }).finally(() => {
+          issueServicesFinished += 1;
+          if (issueServicesFinished == issueNumbers.length) {
+            loadingIconTasks.hide();
+            if (this.invalidTicketIDs.length) {
+              this.invalid = true;
+            }
+          }
+        });
       });
-    });
+    } else {
+      this.invalid = true;
+      loadingIconTasks.hide();
+    }
+
   }
 
 }
