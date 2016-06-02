@@ -1,0 +1,399 @@
+{
+  "expand": "renderedFields,names,schema,transitions,operations,editmeta,changelog",
+  "id": "73191",
+  "self": "https://www.dom.com/jira/rest/api/2/issue/73191",
+  "key": "ATG-5980",
+  "fields": {
+    "summary": "Product listing page re-design | Display device pricing information",
+    "progress": {
+      "progress": 0,
+      "total": 0
+    },
+    "timetracking": {},
+    "issuetype": {
+      "self": "https://www.dom.com/jira/rest/api/2/issuetype/7",
+      "id": "7",
+      "description": "A user story",
+      "iconUrl": "https://www.dom.com/jira/images/icons/issuetypes/story.png",
+      "name": "Story",
+      "subtask": false
+    },
+    "timespent": null,
+    "reporter": {
+      "self": "https://www.dom.com/jira/rest/api/2/user?username=swang",
+      "name": "swang",
+      "emailAddress": "creator@gmail.com",
+      "avatarUrls": {
+        "16x16": "https://www.dom.com/jira/secure/useravatar?size=xsmall&avatarId=10122",
+        "24x24": "https://www.dom.com/jira/secure/useravatar?size=small&avatarId=10122",
+        "32x32": "https://www.dom.com/jira/secure/useravatar?size=medium&avatarId=10122",
+        "48x48": "https://www.dom.com/jira/secure/useravatar?avatarId=10122"
+      },
+      "displayName": "Juan Peres",
+      "active": true
+    },
+    "created": "2016-04-11T11:23:32.000+1200",
+    "updated": "2016-05-16T11:29:05.000+1200",
+    "priority": {
+      "self": "https://www.dom.com/jira/rest/api/2/priority/3",
+      "iconUrl": "https://www.dom.com/jira/images/icons/priorities/major.png",
+      "name": "Major",
+      "id": "3"
+    },
+    "description": "*As a* Business Owner\r\n*I want* to see the device pricing information displayed on the Product listing page\r\n*So that* I am aware of the affordability of individual devices\r\n\r\n*Background*\r\nGiven that I have landed on the Product listing page\r\n\r\n*Acceptance Criteria*\r\n*Scenario: configuring the default pricing option*\r\nAnd I have a BCC tool\r\nWhen I log in as an admin user\r\nThen I should be able to configure the default <Pricing option> for the Product listing page\r\nWhen I view the Product listing page\r\nThen I should be able to see the default <Pricing option> being applied\r\n||Pricing option|\r\n|Upfront payment|\r\n|Interest free payment|\r\n----\r\n*Scenario: Upfront payment view*\r\nWhen the default <Pricing option> is set to Upfront payment\r\nAnd I browse through the *Available devices* on upfront payment\r\n*(**Available devices:* +Mobile phones | iPads&Tablets | Mobile broadband+*)*\r\nThen I should be able to see the <Upfront pricing information>\r\n||Upfront pricing information||\r\n|Minimum upfront cost|\r\n|Monthly plan cost|\r\n|Plan name|\r\n|Plan term|\r\n\r\n[Example]\r\n||Device name||Minimum upfront cost||Monthly plan cost||Plan name||Plan term||\r\n|iPhone 6S|from $199|$129.99|Red+|24 month term|\r\n|iPhone 5s|from $0|$69.99|-$69-|24 months term|\r\n|iPhone 6s Plus|from $399|$138.98|Red+ Business|24 months term|\r\n|iPhone 6|from $999|$39.99|Advantage Lite|Open term|\r\n|iPad mini 4|from $749|$50.99|Broadband Regular (2 GB)|12 months term|\r\n|Pocket WiFi R209z|from $29|$20.99|Broadband Mini (500MB)|12 months term|\r\n----\r\n*Scenario: Interest-free view*\r\nWhen the default <Pricing option> is set to Interest free payment\r\nAnd I browse through the *Available devices* on interest free payment\r\n*(**Available devices:* +Mobile phones | iPads&Tablets+*)*\r\nThen I should be able to see the <Interest free pricing information>\r\n||Interest free pricing information||\r\n|Deposit|\r\n|Minimum monthly device cost|\r\n|IFP term|\r\n|Monthly plan cost|\r\n|Plan name|\r\n|Plan term|\r\n\r\n[Example]\r\n||Device name||Deposit||Minimum monthly device cost||IFP term||Monthly plan cost||Plan name||Plan term||\r\n|iPhone 6s|$99|from $84.99|24 months|$39.99|Advantage Lite|Open term|\r\n|iPhone 5s|$0|from $22|24 months|$39.99|Advantage Lite|Open term|\r\n|iPhone 6s|$99|from $58.33|12 months|$129.99|Red+|24 months term|\r\n|iPad mini 4|$99|from $50.99|24 months|$50.99|Broadband Regular (2GB)|12 months term|\r\n|iPad mini 4|$99|from $20.83|36 months|$30.99|Broadband Regular (1GB)|Open term|\r\n----\r\n*Scenario: Prepay view*\r\nWhen I navigate to the Prepay view on the Product listing page\r\nAnd I browse through the *Available devices* on Prepay\r\n*(**Available devices:* +Mobile phones | iPads&Tablets | Mobile broadband+*)*\r\nThen I should be able to see the <Prepay pricing information> for mobile devices\r\n||Prepay pricing information||\r\n|Minimum Device RRP|\r\n|Plan name|\r\n\r\n[Example]\r\n||Device name||Minimum Device RRP||Plan name||\r\n|iPhone 6s|from $1199|Prepay Carryover 19|\r\n|Samsung Galaxy Tab Active 8|from $749|Prepay Carryover 19|\r\n|Pocket WiFi R216|from $99|Prepay Carryover 19|\r\n----\r\n*Scenario: Accessories view*\r\nWhen I navigate to the Accessories view on the Product listing page\r\nThen I should be able to see the <Accessories pricing information> displayed\r\n||Accessories pricing information||\r\n|Minimum Device RRP|\r\n\r\n||Device name||Minimum Device RRP||\r\n|Apple iPhone USB Calble|from $35|\r\n|Samsung Galaxy Gear VR Lite|from $199|\r\n|Essential HTC M8 Bundle|from $35|\r\n----\r\n*Scenario: error handling when the pricing service is unavailable*\r\nWhen the pricing service is unavailable\r\nThen I should not be able to see the device pricing information\r\nAnd I should see an Error message displayed\r\n----\r\n-*Scenario: Pre-selected plan*-\r\n-And I have already pre-selected a plan from CMS-\r\n-Or I already have a stand alone plan in my Shopping cart-\r\n-When I browse through the devices-\r\n-Then I should be able to see the plan and pricing information reflected on the Product listing page-\r\n----\r\n[Requirement]\r\n- The device pricing information should be displayed consistently with the design specifications for Desktop, Tablet and Mobile devices\r\n- Please refer to Zeplin for UX designs | https://app.zeplin.io/project.html#pid=57181e2052aa45c12da36c14&dashboard\r\n- Error handling (in the even that the service for retrieving device pricing information fails, an error message should be displayed)",
+    "customfield_10001": null,
+    "customfield_10002": null,
+    "customfield_10003": null,
+    "customfield_10004": 8,
+    "issuelinks": [],
+    "customfield_10000": null,
+    "customfield_11505": null,
+    "subtasks": [{
+      "id": "74403",
+      "key": "ATG-6074",
+      "self": "https://www.dom.com/jira/rest/api/2/issue/74403",
+      "fields": {
+        "summary": "FE: Create new service for getting pricing for current device list",
+        "status": {
+          "self": "https://www.dom.com/jira/rest/api/2/status/3",
+          "description": "This issue is being actively worked on at the moment by the assignee.",
+          "iconUrl": "https://www.dom.com/jira/images/icons/statuses/inprogress.png",
+          "name": "In Progress",
+          "id": "3",
+          "statusCategory": {
+            "self": "https://www.dom.com/jira/rest/api/2/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        },
+        "priority": {
+          "self": "https://www.dom.com/jira/rest/api/2/priority/3",
+          "iconUrl": "https://www.dom.com/jira/images/icons/priorities/major.png",
+          "name": "Major",
+          "id": "3"
+        },
+        "issuetype": {
+          "self": "https://www.dom.com/jira/rest/api/2/issuetype/5",
+          "id": "5",
+          "description": "The sub-task of the issue",
+          "iconUrl": "https://www.dom.com/jira/images/icons/issuetypes/subtask_alternate.png",
+          "name": "Sub-task",
+          "subtask": true
+        }
+      }
+    }, {
+      "id": "74776",
+      "key": "ATG-6119",
+      "self": "https://www.dom.com/jira/rest/api/2/issue/74776",
+      "fields": {
+        "summary": "BAT",
+        "status": {
+          "self": "https://www.dom.com/jira/rest/api/2/status/1",
+          "description": "The issue is open and ready for the assignee to start work on it.",
+          "iconUrl": "https://www.dom.com/jira/images/icons/statuses/open.png",
+          "name": "Open",
+          "id": "1",
+          "statusCategory": {
+            "self": "https://www.dom.com/jira/rest/api/2/statuscategory/2",
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "New"
+          }
+        },
+        "priority": {
+          "self": "https://www.dom.com/jira/rest/api/2/priority/3",
+          "iconUrl": "https://www.dom.com/jira/images/icons/priorities/major.png",
+          "name": "Major",
+          "id": "3"
+        },
+        "issuetype": {
+          "self": "https://www.dom.com/jira/rest/api/2/issuetype/5",
+          "id": "5",
+          "description": "The sub-task of the issue",
+          "iconUrl": "https://www.dom.com/jira/images/icons/issuetypes/subtask_alternate.png",
+          "name": "Sub-task",
+          "subtask": true
+        }
+      }
+    },{
+      "key" : "ATG-4567",
+      "fields" : {
+        "summary" : "FE: create templates html and css",
+        "issuetype": {
+          "self": "https://www.dom.com/jira/rest/api/2/issuetype/5",
+          "id": "5",
+          "description": "The sub-task of the issue",
+          "iconUrl": "https://www.dom.com/jira/images/icons/issuetypes/subtask_alternate.png",
+          "name": "Sub-task",
+          "subtask": true
+        }
+      }
+    },{
+      "key" : "ATG-4568",
+      "fields" : {
+        "summary" : "BE: remove field 'summary from table test'",
+        "issuetype": {
+          "self": "https://www.dom.com/jira/rest/api/2/issuetype/5",
+          "id": "5",
+          "description": "The sub-task of the issue",
+          "iconUrl": "https://www.dom.com/jira/images/icons/issuetypes/subtask_alternate.png",
+          "name": "Sub-task",
+          "subtask": true
+        }
+      }
+    },{
+      "key" : "ATG-4569",
+      "fields" : {
+        "summary" : "BE: create new property on phones devices",
+        "issuetype": {
+          "self": "https://www.dom.com/jira/rest/api/2/issuetype/5",
+          "id": "5",
+          "description": "The sub-task of the issue",
+          "iconUrl": "https://www.dom.com/jira/images/icons/issuetypes/subtask_alternate.png",
+          "name": "Sub-task",
+          "subtask": true
+        }
+      }
+    },{
+      "key" : "ATG-4570",
+      "fields" : {
+        "summary" : "TEST: implement automation testing to grid layout",
+        "issuetype": {
+          "self": "https://www.dom.com/jira/rest/api/2/issuetype/5",
+          "id": "5",
+          "description": "The sub-task of the issue",
+          "iconUrl": "https://www.dom.com/jira/images/icons/issuetypes/subtask_alternate.png",
+          "name": "Sub-task",
+          "subtask": true
+        }
+      }
+    },{
+      "key" : "ATG-4571",
+      "fields" : {
+        "summary" : "TEST: test new feature to remove icons",
+        "issuetype": {
+          "self": "https://www.dom.com/jira/rest/api/2/issuetype/5",
+          "id": "5",
+          "description": "The sub-task of the issue",
+          "iconUrl": "https://www.dom.com/jira/images/icons/issuetypes/subtask_alternate.png",
+          "name": "Sub-task",
+          "subtask": true
+        }
+      }
+    },{
+      "key" : "ATG-4572",
+      "fields" : {
+        "summary" : "Design sign off",
+        "issuetype": {
+          "self": "https://www.dom.com/jira/rest/api/2/issuetype/5",
+          "id": "5",
+          "description": "The sub-task of the issue",
+          "iconUrl": "https://www.dom.com/jira/images/icons/issuetypes/subtask_alternate.png",
+          "name": "Sub-task",
+          "subtask": true
+        }
+      }
+    },{
+      "key" : "ATG-4573",
+      "fields" : {
+        "summary" : "Design: create designs for new bundles",
+        "issuetype": {
+          "self": "https://www.dom.com/jira/rest/api/2/issuetype/5",
+          "id": "5",
+          "description": "The sub-task of the issue",
+          "iconUrl": "https://www.dom.com/jira/images/icons/issuetypes/subtask_alternate.png",
+          "name": "Sub-task",
+          "subtask": true
+        }
+      }
+    }],
+    "customfield_11503": null,
+    "status": {
+      "self": "https://www.dom.com/jira/rest/api/2/status/3",
+      "description": "This issue is being actively worked on at the moment by the assignee.",
+      "iconUrl": "https://www.dom.com/jira/images/icons/statuses/inprogress.png",
+      "name": "In Progress",
+      "id": "3",
+      "statusCategory": {
+        "self": "https://www.dom.com/jira/rest/api/2/statuscategory/4",
+        "id": 4,
+        "key": "indeterminate",
+        "colorName": "yellow",
+        "name": "In Progress"
+      }
+    },
+    "customfield_10007": ["com.atlassian.greenhopper.service.sprint.Sprint@63e62d28[rapidViewId=182,state=ACTIVE,name=Sprint 6 - Alpha,startDate=2016-05-16T10:30:04.267+12:00,endDate=2016-05-27T17:30:00.000+12:00,completeDate=<null>,sequence=511,id=511]"],
+    "customfield_11504": null,
+    "customfield_10006": "9223372036854775807",
+    "labels": ["Drive_Digital_Channel_Shift", "Q1FY16-17"],
+    "customfield_10005": null,
+    "workratio": -1,
+    "project": {
+      "self": "https://www.dom.com/jira/rest/api/2/project/10100",
+      "id": "10100",
+      "key": "ATG",
+      "name": "Online ATG",
+      "avatarUrls": {
+        "16x16": "https://www.dom.com/jira/secure/projectavatar?size=xsmall&pid=10100&avatarId=11104",
+        "24x24": "https://www.dom.com/jira/secure/projectavatar?size=small&pid=10100&avatarId=11104",
+        "32x32": "https://www.dom.com/jira/secure/projectavatar?size=medium&pid=10100&avatarId=11104",
+        "48x48": "https://www.dom.com/jira/secure/projectavatar?pid=10100&avatarId=11104"
+      }
+    },
+    "environment": null,
+    "aggregateprogress": {
+      "progress": 0,
+      "total": 0
+    },
+    "lastViewed": "2016-05-17T10:38:27.136+1200",
+    "components": [],
+    "comment": {
+      "startAt": 0,
+      "maxResults": 2,
+      "total": 2,
+      "comments": [{
+        "self": "https://www.dom.com/jira/rest/api/2/issue/73191/comment/132275",
+        "id": "132275",
+        "author": {
+          "self": "https://www.dom.com/jira/rest/api/2/user?username=swang",
+          "name": "swang",
+          "emailAddress": "creator@gmail.com",
+          "avatarUrls": {
+            "16x16": "https://www.dom.com/jira/secure/useravatar?size=xsmall&avatarId=10122",
+            "24x24": "https://www.dom.com/jira/secure/useravatar?size=small&avatarId=10122",
+            "32x32": "https://www.dom.com/jira/secure/useravatar?size=medium&avatarId=10122",
+            "48x48": "https://www.dom.com/jira/secure/useravatar?avatarId=10122"
+          },
+          "displayName": "Juan Peres",
+          "active": true
+        },
+        "body": "After discussion with [~jsidhu] & [~amutton], we will create a separate story for the last scenario - pre-selected plan.",
+        "updateAuthor": {
+          "self": "https://www.dom.com/jira/rest/api/2/user?username=swang",
+          "name": "swang",
+          "emailAddress": "alguien@gmail.com",
+          "avatarUrls": {
+            "16x16": "https://www.dom.com/jira/secure/useravatar?size=xsmall&avatarId=10122",
+            "24x24": "https://www.dom.com/jira/secure/useravatar?size=small&avatarId=10122",
+            "32x32": "https://www.dom.com/jira/secure/useravatar?size=medium&avatarId=10122",
+            "48x48": "https://www.dom.com/jira/secure/useravatar?avatarId=10122"
+          },
+          "displayName": "Juan Perez",
+          "active": true
+        },
+        "created": "2016-04-27T13:34:34.000+1200",
+        "updated": "2016-04-27T13:34:34.000+1200"
+      }, {
+        "self": "https://www.dom.com/jira/rest/api/2/issue/73191/comment/133837",
+        "id": "133837",
+        "author": {
+          "self": "https://www.dom.com/jira/rest/api/2/user?username=swang",
+          "name": "swang",
+          "emailAddress": "alguien@gmail.com",
+          "avatarUrls": {
+            "16x16": "https://www.dom.com/jira/secure/useravatar?size=xsmall&avatarId=10122",
+            "24x24": "https://www.dom.com/jira/secure/useravatar?size=small&avatarId=10122",
+            "32x32": "https://www.dom.com/jira/secure/useravatar?size=medium&avatarId=10122",
+            "48x48": "https://www.dom.com/jira/secure/useravatar?avatarId=10122"
+          },
+          "displayName": "Juan Perez",
+          "active": true
+        },
+        "body": "[~jantoni][~obondar][~mpaoluc] As discussed, I have added the scenario for error handling when pricing service is unavailable, John if you can provide some design inputs.",
+        "updateAuthor": {
+          "self": "https://www.dom.com/jira/rest/api/2/user?username=swang",
+          "name": "swang",
+          "emailAddress": "alguien@gmail.com",
+          "avatarUrls": {
+            "16x16": "https://www.dom.com/jira/secure/useravatar?size=xsmall&avatarId=10122",
+            "24x24": "https://www.dom.com/jira/secure/useravatar?size=small&avatarId=10122",
+            "32x32": "https://www.dom.com/jira/secure/useravatar?size=medium&avatarId=10122",
+            "48x48": "https://www.dom.com/jira/secure/useravatar?avatarId=10122"
+          },
+          "displayName": "Juan Perez",
+          "active": true
+        },
+        "created": "2016-05-12T10:08:28.000+1200",
+        "updated": "2016-05-12T10:08:28.000+1200"
+      }]
+    },
+    "timeoriginalestimate": null,
+    "votes": {
+      "self": "https://www.dom.com/jira/rest/api/2/issue/ATG-5980/votes",
+      "votes": 0,
+      "hasVoted": false
+    },
+    "resolution": null,
+    "fixVersions": [{
+      "self": "https://www.dom.com/jira/rest/api/2/version/14801",
+      "id": "14801",
+      "description": "",
+      "name": "Unassigned",
+      "archived": false,
+      "released": false
+    }],
+    "resolutiondate": null,
+    "creator": {
+      "self": "https://www.dom.com/jira/rest/api/2/user?username=swang",
+      "name": "swang",
+      "emailAddress": "alguien@gmail.com",
+      "avatarUrls": {
+        "16x16": "https://www.dom.com/jira/secure/useravatar?size=xsmall&avatarId=10122",
+        "24x24": "https://www.dom.com/jira/secure/useravatar?size=small&avatarId=10122",
+        "32x32": "https://www.dom.com/jira/secure/useravatar?size=medium&avatarId=10122",
+        "48x48": "https://www.dom.com/jira/secure/useravatar?avatarId=10122"
+      },
+      "displayName": "Juan Perez",
+      "active": true
+    },
+    "aggregatetimeoriginalestimate": null,
+    "customfield_11001": null,
+    "customfield_11000": null,
+    "duedate": null,
+    "customfield_10020": null,
+    "customfield_10021": "Alpha",
+    "customfield_10022": null,
+    "customfield_10023": null,
+    "watches": {
+      "self": "https://www.dom.com/jira/rest/api/2/issue/ATG-5980/watchers",
+      "watchCount": 0,
+      "isWatching": false
+    },
+    "customfield_10024": null,
+    "customfield_10025": null,
+    "worklog": {
+      "startAt": 0,
+      "maxResults": 20,
+      "total": 0,
+      "worklogs": []
+    },
+    "customfield_10600": "0|hzzy7l:4f088x",
+    "customfield_10100": "ATG-5934",
+    "customfield_11318": "Unassigned - UNCOVERED",
+    "assignee": {
+      "self": "https://www.dom.com/jira/rest/api/2/user?username=obondar",
+      "name": "obondar",
+      "emailAddress": "pepe@gmail.com",
+      "avatarUrls": {
+        "16x16": "https://www.dom.com/jira/secure/useravatar?size=xsmall&ownerId=obondar&avatarId=17604",
+        "24x24": "https://www.dom.com/jira/secure/useravatar?size=small&ownerId=obondar&avatarId=17604",
+        "32x32": "https://www.dom.com/jira/secure/useravatar?size=medium&ownerId=obondar&avatarId=17604",
+        "48x48": "https://www.dom.com/jira/secure/useravatar?ownerId=obondar&avatarId=17604"
+      },
+      "displayName": "Pepe",
+      "active": true
+    },
+    "attachment": [],
+    "customfield_10200": null,
+    "customfield_10500": null,
+    "aggregatetimeestimate": null,
+    "versions": [],
+    "customfield_10400": null,
+    "timeestimate": null,
+    "customfield_10800": null,
+    "aggregatetimespent": null
+  }
+}
