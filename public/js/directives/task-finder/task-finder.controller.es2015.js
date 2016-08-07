@@ -5,13 +5,15 @@ export default class TaskFinderCtrl {
     this.$log = $log;
     this.$scope = $scope;
     this.logedIn = false;
-    this.invalid = false;
-    this.invalidTicketIDs = [];
+    this.invalid = false; //set the flag to show error label for invalid ticket numbers
+    this.invalidTicketIDs = []; //show the ids that does not match any jira issue
+    this.hideFinishedSubtasks = false; //hide subtasks that are resolved or closed in stories.
     this.issueNumbers = '';
     this.taskColor = '1E90FF';
     this.subtaskColor = 'AC74FF';
     this.epicColor = 'FFB51F';
     this.bugColor = 'FF7E6B';
+
 
     this.$scope.$watch('logedIn', (newValue, oldValue) => {
       this.logedIn = eval(newValue);

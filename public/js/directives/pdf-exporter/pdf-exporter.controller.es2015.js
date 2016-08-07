@@ -5,9 +5,15 @@ export default class PdfExporterCtrl {
     this.tasksArray = [];
     this.$scope = $scope;
     this.logedIn = false;
+    this.hideFinishedSubtasks = false;
 
     this.$scope.$watch('logedIn', (newValue, oldValue) => {
       this.logedIn = eval(newValue);
+    });
+
+    this.$scope.$watch('hideFinishedSubtasks', (newValue, oldValue) => {
+      this.pdfDocDef = null;
+      this.hideFinishedSubtasks = eval(newValue);
     });
 
     this.$scope.$watch('tasks', (newValue, oldValue) => {
@@ -62,19 +68,28 @@ export default class PdfExporterCtrl {
 
       //Create PDF definition foreach subtask of the previous task
       if (task.fields.subtasks) {
-        for (let i = 0; i < task.fields.subtasks.length; i += 2) {
+        let pdfSubTaskPairDocDef = { columns: [] }; //each row in the page gonna contain 2 subtasks
+
+        for (let i = 0; i < task.fields.subtasks.length; i++) {
           let subtask = task.fields.subtasks[i];
-          let subtask2 = i + 1 < task.fields.subtasks.length ? task.fields.subtasks[i + 1] : null;
 
-          let pdfSubTaskDocDef = {
-            columns: [this._generateTaskDocDef(subtask, task)]
-          };
-
-          if (subtask2) {
-            pdfSubTaskDocDef.columns.push(this._generateTaskDocDef(subtask2, task));
+          if (pdfSubTaskPairDocDef.columns.length < 2) {
+            if (this.hideFinishedSubtasks && (subtask.fields.status.name.toLowerCase() == 'resolved' || subtask.fields.status.name.toLowerCase() == 'closed')) {
+              //do nothing (the task must be hidden because it status is resolver or closed and is selected hide finished subtasks option)
+            } else {
+              pdfSubTaskPairDocDef.columns.push(this._generateTaskDocDef(subtask, task));
+            }
           }
 
-          pdfTasksDocDef.push(pdfSubTaskDocDef);
+          if (pdfSubTaskPairDocDef.columns.length == 2) {
+            pdfTasksDocDef.push(pdfSubTaskPairDocDef);
+            pdfSubTaskPairDocDef = { columns: [] }; //reset the pair object
+          }
+        }
+
+        //whether after the loop execution there is one remaining task in the Pair then add it to the definition
+        if (pdfSubTaskPairDocDef.columns.length) {
+          pdfTasksDocDef.push(pdfSubTaskPairDocDef);
         }
       }
     });

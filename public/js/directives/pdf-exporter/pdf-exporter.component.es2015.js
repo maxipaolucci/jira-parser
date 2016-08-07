@@ -12,7 +12,8 @@ export default class PdfExporter {
       subtaskColor : '@',
       bugColor : '@',
       epicColor : '@',
-      logedIn : '@'
+      logedIn : '@',
+      hideFinishedSubtasks : '@'
     };
   }
 }

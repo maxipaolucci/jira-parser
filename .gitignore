@@ -5,3 +5,4 @@ public/**/*.css
 public/js/main.js
 app.js
 *.bak
+*.log

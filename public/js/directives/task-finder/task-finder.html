@@ -1,37 +1,44 @@
 <!-- Ticket form container -->
 <div class="ticket-form-container non-printable" ng-class="taskFinderCtrl.invalid ? 'invalid' : ''" >
-    Ticket numbers (comma separated): <input ng-disabled="!taskFinderCtrl.logedIn" type="text" ng-model="taskFinderCtrl.issueNumbers" size="100" />
-    <button type="button" ng-click="taskFinderCtrl.findJiraIssues()" ng-disabled="!taskFinderCtrl.logedIn">Find</button>
-    <pdf-exporter loged-in="{{taskFinderCtrl.logedIn}}" tasks="{{tasks}}" task-color="{{taskFinderCtrl.taskColor}}" subtask-color="{{taskFinderCtrl.subtaskColor}}"
-                  epic-color="{{taskFinderCtrl.epicColor}}" bug-color="{{taskFinderCtrl.bugColor}}"></pdf-exporter>
-    <div class="error msg error-msg">Invalid ticket numbers: {{taskFinderCtrl.invalidTicketIDs}}</div>
-    <div class="color-controls">
-        <h3>Colors</h3>
-        <label>Story:</label> <input ng-disabled="!taskFinderCtrl.logedIn" class="task-color jscolor"
-                           ng-model="taskFinderCtrl.taskColor" style="background-color: #{{taskFinderCtrl.taskColor}}">
-        <label>Subtask:</label> <input ng-disabled="!taskFinderCtrl.logedIn" class="subtask-color jscolor"
-                              ng-model="taskFinderCtrl.subtaskColor" style="background-color: #{{taskFinderCtrl.subtaskColor}}">
-        <label>Epic:</label> <input ng-disabled="!taskFinderCtrl.logedIn" class="epic-color jscolor"
-                           ng-model="taskFinderCtrl.epicColor" style="background-color: #{{taskFinderCtrl.epicColor}}">
-        <label>Bug:</label> <input ng-disabled="!taskFinderCtrl.logedIn" class="bug-color jscolor"
-                              ng-model="taskFinderCtrl.bugColor" style="background-color: #{{taskFinderCtrl.bugColor}}">
-    </div>
+  Ticket numbers (comma separated): <input ng-disabled="!taskFinderCtrl.logedIn" type="text" ng-model="taskFinderCtrl.issueNumbers" size="100" />
+  <button type="button" ng-click="taskFinderCtrl.findJiraIssues()" ng-disabled="!taskFinderCtrl.logedIn">Find</button>
+
+  <pdf-exporter loged-in="{{taskFinderCtrl.logedIn}}" tasks="{{tasks}}" task-color="{{taskFinderCtrl.taskColor}}" subtask-color="{{taskFinderCtrl.subtaskColor}}"
+      epic-color="{{taskFinderCtrl.epicColor}}" bug-color="{{taskFinderCtrl.bugColor}}" hide-finished-subtasks="{{taskFinderCtrl.hideFinishedSubtasks}}"></pdf-exporter>
+  <div class="error msg error-msg">Invalid ticket numbers: {{taskFinderCtrl.invalidTicketIDs}}</div>
+
+  <div class="hide-resolved-tasks-btn">
+    <label for="hideFinishedSubtasksBtn">Hide finished sub-tasks (resolved or closed)</label><input id="hideFinishedSubtasksBtn" type="checkbox" ng-model="taskFinderCtrl.hideFinishedSubtasks" />
+  </div>
+
+  <div class="color-controls">
+    <h3>Colors</h3>
+    <label>Story:</label>
+    <input ng-disabled="!taskFinderCtrl.logedIn" class="task-color jscolor" ng-model="taskFinderCtrl.taskColor" style="background-color: #{{taskFinderCtrl.taskColor}}">
+    <label>Subtask:</label>
+    <input ng-disabled="!taskFinderCtrl.logedIn" class="subtask-color jscolor" ng-model="taskFinderCtrl.subtaskColor" style="background-color: #{{taskFinderCtrl.subtaskColor}}">
+    <label>Epic:</label>
+    <input ng-disabled="!taskFinderCtrl.logedIn" class="epic-color jscolor" ng-model="taskFinderCtrl.epicColor" style="background-color: #{{taskFinderCtrl.epicColor}}">
+    <label>Bug:</label>
+    <input ng-disabled="!taskFinderCtrl.logedIn" class="bug-color jscolor" ng-model="taskFinderCtrl.bugColor" style="background-color: #{{taskFinderCtrl.bugColor}}">
+  </div>
 </div>
 
 <!-- Ticket cards container -->
 <div class="jira-tiles">
-    <loading-icon class="loading-icon--task-finder"></loading-icon>
-    <div class="jira-task-container" ng-repeat="task in tasks">
-        <div class="jira-task">
-            <div class="id" style="background-color: #{{taskFinderCtrl.getCardConfig(task).color}};">{{taskFinderCtrl.getCardConfig(task).type + ': ' + task.key}}</div>
-            <div class="summary">{{task.fields.summary}}</div>
-            <div class="footer" ng-if="task.fields.issuetype.name == 'Story' && task.fields.customfield_10004">{{task.fields.customfield_10004}} points</div>
-        </div>
-
-        <div class="jira-task jira-task--subtask" ng-repeat="subtask in task.fields.subtasks">
-            <div class="id" style="background-color: #{{taskFinderCtrl.subtaskColor}};">{{taskFinderCtrl.getCardConfig(subtask).type + ': ' + task.key}}</div>
-            <div class="summary">{{subtask.key}}: {{subtask.fields.summary}}</div>
-        </div>
-        <div class="clearfix"></div>
+  <loading-icon class="loading-icon--task-finder"></loading-icon>
+  <div class="jira-task-container" ng-repeat="task in tasks">
+    <div class="jira-task">
+      <div class="id" style="background-color: #{{taskFinderCtrl.getCardConfig(task).color}};">{{taskFinderCtrl.getCardConfig(task).type + ': ' + task.key}}</div>
+      <div class="summary">{{task.fields.summary}}</div>
+      <div class="footer" ng-if="task.fields.issuetype.name == 'Story' && task.fields.customfield_10004">{{task.fields.customfield_10004}} points</div>
     </div>
+
+    <div class="jira-task jira-task--subtask" ng-repeat="subtask in task.fields.subtasks"
+        ng-hide="taskFinderCtrl.hideFinishedSubtasks && ((subtask.fields.status.name | lowercase) == 'resolved' || (subtask.fields.status.name | lowercase) == 'closed')">
+      <div class="id" style="background-color: #{{taskFinderCtrl.subtaskColor}};">{{taskFinderCtrl.getCardConfig(subtask).type + ': ' + task.key}}</div>
+      <div class="summary">{{subtask.key}}: {{subtask.fields.summary}}</div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
 </div>

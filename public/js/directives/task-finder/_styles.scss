@@ -7,6 +7,11 @@ task-finder {
   .ticket-form-container {
     margin-top: 15px;
 
+    .hide-resolved-tasks-btn {
+      display: block;
+      margin: 10px 0;
+    }
+
     .color-controls {
       margin-bottom: 20px;
 
