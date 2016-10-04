@@ -9,7 +9,8 @@ export default class TaskFinderCtrl {
     this.invalidTicketIDs = []; //show the ids that does not match any jira issue
     this.hideFinishedSubtasks = false; //hide subtasks that are resolved or closed in stories.
     this.issueNumbers = '';
-    this.taskColor = '1E90FF';
+    this.storyColor = '1E90FF';
+    this.taskColor = 'FF30F3';
     this.subtaskColor = 'AC74FF';
     this.epicColor = 'FFB51F';
     this.bugColor = 'FF7E6B';
@@ -23,12 +24,16 @@ export default class TaskFinderCtrl {
   getCardConfig(task) {
     let cardType = task.fields.issuetype.name;
     let color = this.taskColor;
-    let type = 'Story';
+    let type = 'Task';
 
     switch (cardType.toLowerCase()) {
       case 'story':
-        color = this.taskColor;
+        color = this.storyColor;
         type = 'Story';
+        break;
+      case 'task':
+        color = this.taskColor;
+        type = 'Task';
         break;
       case 'sub-task':
         color = this.subtaskColor;

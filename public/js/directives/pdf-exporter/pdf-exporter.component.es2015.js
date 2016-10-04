@@ -8,6 +8,7 @@ export default class PdfExporter {
     this.controllerAs = 'pdfExporterCtrl';
     this.scope = {
       tasks : '@',
+      storyColor : '@',
       taskColor : '@',
       subtaskColor : '@',
       bugColor : '@',

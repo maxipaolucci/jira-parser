@@ -3,7 +3,7 @@
   Ticket numbers (comma separated): <input ng-disabled="!taskFinderCtrl.logedIn" type="text" ng-model="taskFinderCtrl.issueNumbers" size="100" />
   <button type="button" ng-click="taskFinderCtrl.findJiraIssues()" ng-disabled="!taskFinderCtrl.logedIn">Find</button>
 
-  <pdf-exporter loged-in="{{taskFinderCtrl.logedIn}}" tasks="{{tasks}}" task-color="{{taskFinderCtrl.taskColor}}" subtask-color="{{taskFinderCtrl.subtaskColor}}"
+  <pdf-exporter loged-in="{{taskFinderCtrl.logedIn}}" tasks="{{tasks}}" story-color="{{taskFinderCtrl.storyColor}}" task-color="{{taskFinderCtrl.taskColor}}" subtask-color="{{taskFinderCtrl.subtaskColor}}"
       epic-color="{{taskFinderCtrl.epicColor}}" bug-color="{{taskFinderCtrl.bugColor}}" hide-finished-subtasks="{{taskFinderCtrl.hideFinishedSubtasks}}"></pdf-exporter>
   <div class="error msg error-msg">Invalid ticket numbers: {{taskFinderCtrl.invalidTicketIDs}}</div>
 
@@ -14,6 +14,8 @@
   <div class="color-controls">
     <h3>Colors</h3>
     <label>Story:</label>
+    <input ng-disabled="!taskFinderCtrl.logedIn" class="story-color jscolor" ng-model="taskFinderCtrl.storyColor" style="background-color: #{{taskFinderCtrl.storyColor}}">
+    <label>Task:</label>
     <input ng-disabled="!taskFinderCtrl.logedIn" class="task-color jscolor" ng-model="taskFinderCtrl.taskColor" style="background-color: #{{taskFinderCtrl.taskColor}}">
     <label>Subtask:</label>
     <input ng-disabled="!taskFinderCtrl.logedIn" class="subtask-color jscolor" ng-model="taskFinderCtrl.subtaskColor" style="background-color: #{{taskFinderCtrl.subtaskColor}}">

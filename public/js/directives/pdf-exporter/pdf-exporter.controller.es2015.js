@@ -21,7 +21,7 @@ export default class PdfExporterCtrl {
       this.tasksArray = JSON.parse(newValue);
     });
 
-    this.$scope.$watchGroup(['taskColor', 'subtaskColor', 'bugColor', 'epicColor'], (newValue, oldValue) => {
+    this.$scope.$watchGroup(['taskColor', 'storyColor', 'subtaskColor', 'bugColor', 'epicColor'], (newValue, oldValue) => {
       //whenever tasks colors changes then regenerate the doc def with new colors
       this.pdfDocDef = null;
     });
@@ -93,7 +93,7 @@ export default class PdfExporterCtrl {
         }
       }
     });
-
+    
     this.pdfDocDef = {
       // a string or { width: number, height: number }
       pageSize: 'A4',
@@ -115,6 +115,13 @@ export default class PdfExporterCtrl {
           fontSize: 22,
           color: '#fff',
           fillColor: '#' + this.$scope.epicColor
+        },
+        storyTableHeader: {
+          alignment: 'center',
+          bold: true,
+          fontSize: 22,
+          color: '#fff',
+          fillColor: '#' + this.$scope.storyColor
         },
         taskTableHeader: {
           alignment: 'center',
@@ -138,6 +145,9 @@ export default class PdfExporterCtrl {
           fillColor: '#' + this.$scope.bugColor
         },
         taskTableSummary: {
+          fontSize: 20
+        },
+        storyTableSummary: {
           fontSize: 20
         },
         subtaskTableSummary: {
@@ -173,8 +183,13 @@ export default class PdfExporterCtrl {
     const CARD_TYPE = {
       'Story' : {
         tableWidth : TASK_TABLE_WIDTH,
-        stylePrefix: 'task',
+        stylePrefix: 'story',
         title: 'Story'
+      },
+      'Task' : {
+        tableWidth : TASK_TABLE_WIDTH,
+        stylePrefix: 'task',
+        title: 'Task'
       },
       'Epic' : {
         tableWidth : TASK_TABLE_WIDTH,
@@ -198,7 +213,7 @@ export default class PdfExporterCtrl {
     let summary = parentTask ? `${task.key}: ${task.fields.summary}` : task.fields.summary;
     let body = [ [{text: `${cardType.title}: ${key}`, style: `${cardType.stylePrefix}TableHeader` }], [{text: summary, style: `${cardType.stylePrefix}TableSummary` }] ];
 
-    if (!parentTask && cardType.stylePrefix == 'task' && task.fields.customfield_10004) {
+    if (!parentTask && (cardType.stylePrefix == 'story') && task.fields.customfield_10004) {
       body.push([{text: `${task.fields.customfield_10004} points`, style: `${cardType.stylePrefix}TableFooter` }]);
     }
 
